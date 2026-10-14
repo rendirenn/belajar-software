@@ -1,0 +1,1228 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Software 101 - Belajar Software Tanpa Pusing</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Fira+Code:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Plus Jakarta Sans', sans-serif; }
+        .font-mono-code { font-family: 'Fira Code', monospace; }
+        .hero-gradient {
+            background: radial-gradient(circle at top right, rgba(99, 102, 241, 0.1), transparent 50%),
+                        radial-gradient(circle at bottom left, rgba(168, 85, 247, 0.08), transparent 50%);
+        }
+        .card-hover {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .card-hover:hover { transform: translateY(-4px); box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.05), 0 8px 10px -6px rgb(0 0 0 / 0.05); }
+        :focus-visible { outline: 3px solid #38bdf8; outline-offset: 3px; }
+        .progress-track { height: 4px; background: #e2e8f0; }
+        #reading-progress { height: 100%; width: 0; background: linear-gradient(90deg,#0d9488,#2563eb); transition: width .15s linear; }
+        .interactive-choice { min-height: 48px; }
+
+
+        /* Navigasi ringkas dengan hierarki visual yang lebih tenang */
+        .site-nav { background:rgba(255,255,255,.88); backdrop-filter:blur(18px); -webkit-backdrop-filter:blur(18px); border-bottom:1px solid rgba(226,232,240,.85); box-shadow:0 5px 24px rgba(15,23,42,.035); }
+        .nav-main { min-height:78px; }
+        .brand { text-decoration:none; color:#0f172a; }
+        .brand-mark { display:flex; align-items:center; justify-content:center; width:42px; height:42px; border-radius:14px; color:#fff; font-size:17px; background:linear-gradient(135deg,#4f46e5,#7c3aed); box-shadow:0 7px 16px rgba(79,70,229,.2); }
+        .brand-name { font-size:20px; line-height:1.05; letter-spacing:-.7px; font-weight:800; }
+        .brand-name > span { color:#4f46e5; }
+        .brand-name small { display:block; margin-top:5px; font-size:8px; letter-spacing:1.45px; color:#94a3b8; font-weight:800; }
+        .nav-links { font-size:13px; font-weight:650; color:#475569; }
+        .nav-link { display:inline-flex; align-items:center; gap:4px; padding:10px 12px; border-radius:11px; text-decoration:none; white-space:nowrap; color:#475569; transition:background .18s ease,color .18s ease; cursor:pointer; list-style:none; }
+        .nav-link:hover, .nav-dropdown[open] > summary { color:#4338ca; background:#eef2ff; }
+        .nav-dropdown { position:relative; }
+        .nav-dropdown summary::-webkit-details-marker { display:none; }
+        .nav-dropdown-panel { position:absolute; top:calc(100% + 13px); right:-130px; width:490px; display:grid; grid-template-columns:1fr 1fr; gap:4px; padding:16px; border:1px solid #e2e8f0; border-radius:20px; background:rgba(255,255,255,.98); box-shadow:0 22px 60px rgba(15,23,42,.14); }
+        .nav-dropdown-panel:before { content:""; position:absolute; height:14px; top:-14px; left:0; right:0; }
+        .nav-dropdown-label { grid-column:1/-1; margin:0 0 5px; padding:0 8px; font-size:10px; letter-spacing:1.35px; font-weight:800; color:#94a3b8; }
+        .nav-dropdown-panel a { display:flex; align-items:center; gap:11px; padding:10px 8px; border-radius:12px; text-decoration:none; color:#334155; }
+        .nav-dropdown-panel a:hover { background:#f8fafc; color:#4338ca; }
+        .nav-dropdown-panel a > i { display:flex; align-items:center; justify-content:center; width:34px; height:34px; flex-shrink:0; border-radius:10px; background:#eef2ff; color:#4f46e5; }
+        .nav-dropdown-panel b, .nav-dropdown-panel small { display:block; }
+        .nav-dropdown-panel b { font-size:12px; line-height:1.4; }
+        .nav-dropdown-panel small { margin-top:2px; color:#94a3b8; font-size:10px; font-weight:500; }
+        .nav-cta { display:inline-flex; align-items:center; gap:9px; padding:11px 15px; border-radius:12px; color:white; background:#4f46e5; box-shadow:0 5px 12px rgba(79,70,229,.16); text-decoration:none; white-space:nowrap; transition:background .18s ease,transform .18s ease; }
+        .nav-cta:hover { color:white; background:#4338ca; transform:translateY(-1px); }
+        .mobile-menu-button { min-height:42px; padding:0 14px; border:1px solid #e2e8f0; border-radius:12px; color:#334155; background:#fff; font-size:13px; font-weight:700; }
+        .mobile-menu-panel { padding:4px 0 17px; }
+        .mobile-menu-panel .nav-dropdown-label { padding:0; margin:6px 0 10px; }
+        .mobile-menu-panel a { display:block; padding:11px 12px; border:1px solid #e8edf4; border-radius:12px; background:#f8fafc; color:#475569; font-size:12px; font-weight:700; text-decoration:none; }
+        .mobile-menu-panel a:hover { border-color:#c7d2fe; background:#eef2ff; color:#4338ca; }
+        @media(max-width:1023px) { .nav-main { min-height:70px; } .brand-mark { width:39px;height:39px; } }
+        @media(max-width:420px) { .brand-name { font-size:18px; } .brand-name small { font-size:7px; letter-spacing:1.1px; } .mobile-menu-button { padding:0 11px; } }
+
+        /* Penyempurnaan hierarki visual dan alur belajar */
+        html { scroll-padding-top: 112px; }
+        body { line-height: 1.7; }
+        section[id] { scroll-margin-top: 108px; }
+        h1, h2, h3 { line-height: 1.22; letter-spacing: -0.025em; }
+        p { text-wrap: pretty; }
+        .path-step { display:block; min-height:132px; transition:transform .2s ease, border-color .2s ease, box-shadow .2s ease; }
+        .path-step:hover { transform:translateY(-3px); border-color:#a5b4fc; box-shadow:0 12px 24px -16px rgb(49 46 129 / .45); }
+        .path-number { display:inline-flex; align-items:center; justify-content:center; width:30px; height:30px; border-radius:10px; background:#e0e7ff; color:#4338ca; font-family:'Fira Code',monospace; font-size:12px; font-weight:700; }
+        a, button, input, textarea, select { -webkit-tap-highlight-color: transparent; }
+        button:disabled { cursor:not-allowed; opacity:.78; }
+        @media(max-width:640px) {
+          body { line-height:1.65; }
+          .path-step { min-height:0; }
+          section[id] { scroll-margin-top:90px; }
+        }
+        @media (prefers-reduced-motion: reduce) { *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; transition-duration: .01ms !important; } }
+        @media print {
+          @page { margin: 12mm; size: auto; }
+          body.printing > :not(#print-stage) { display:none !important; }
+          body.printing #print-stage { display:block !important; position:static !important; width:100% !important; margin:0 !important; padding:0 !important; color:#111827 !important; background:#fff !important; }
+          body.printing #print-stage * { visibility:visible !important; }
+          body.printing #print-stage .no-print, body.printing #print-stage button { display:none !important; }
+          body.printing #print-stage .shadow-xl, body.printing #print-stage .shadow-lg, body.printing #print-stage .shadow-sm { box-shadow:none !important; }
+          body.printing #print-stage article { break-inside:avoid; }
+        }
+        #print-stage { display:none; }
+    
+/* Mockup antarmuka OS untuk belajar: visual buatan HTML/CSS, bukan screenshot resmi. */
+.os-preview { min-height: 300px; display:flex; align-items:center; justify-content:center; }
+.phone-frame { position:relative; width:190px; height:310px; padding:7px; border-radius:30px; background:#090b10; border:2px solid #59616d; box-shadow:0 14px 35px #0008; flex-shrink:0; }
+.phone-screen { width:100%; height:100%; border-radius:24px; overflow:hidden; position:relative; color:white; }
+.phone-status { display:flex; justify-content:space-between; padding:10px 13px 0; font-size:8px; font-weight:700; position:relative; z-index:2; }
+.android-screen { background:linear-gradient(150deg,#b9dcff 0%,#8e9df2 48%,#273f80 100%); }
+.android-widget { margin:21px 13px 17px; padding:12px; border-radius:16px; background:#ffffff38; border:1px solid #ffffff55; color:#fff; display:flex; flex-direction:column; gap:2px; text-shadow:0 1px 5px #344; }
+.android-widget div,.android-widget small { font-size:7px; }.android-widget strong { font-size:29px; line-height:1.1; }
+.app-grid,.ios-app-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:12px 6px; padding:0 10px; text-align:center; }
+.app-grid span,.ios-app-grid span { font-size:6px; display:flex; align-items:center; flex-direction:column; gap:4px; }
+.app-icon { display:flex; align-items:center; justify-content:center; width:27px; height:27px; border-radius:8px; color:white; font-size:14px; font-style:normal; box-shadow:0 2px 5px #0002; }
+.a-green{background:#25a66a}.a-blue{background:#2789e8}.a-red{background:#f14f53}.a-rainbow{background:linear-gradient(135deg,#f7c948,#f46b73,#9d70f2)}.a-gray{background:#68717f}.a-purple{background:#8a61d6}
+.android-dock { position:absolute; bottom:15px; left:12px; right:12px; height:35px; display:flex; justify-content:space-around; align-items:center; border-radius:15px; background:#ffffff50; font-size:14px; }
+.gesture-bar { position:absolute; bottom:5px; left:40%; width:20%; height:3px; border-radius:3px; background:#fff; }
+.ios-screen { background:linear-gradient(155deg,#f3b5d7 0%,#8b8de9 45%,#4356b9 100%); }
+.island { position:absolute; z-index:3; top:5px; left:35%; width:30%; height:13px; background:#08090c; border-radius:12px; }
+.ios-status { padding-top:9px; }
+.ios-date { margin-top:29px; text-align:center; font-size:7px; letter-spacing:1px; font-weight:700; }
+.ios-clock { font-size:38px; line-height:1.1; text-align:center; font-weight:300; letter-spacing:-2px; }
+.ios-widgets { display:grid; grid-template-columns:1fr 1fr; gap:6px; padding:10px 9px; }
+.ios-widget { height:58px; border-radius:12px; padding:7px; display:flex; flex-direction:column; background:#ffffff38; border:1px solid #ffffff65; backdrop-filter:blur(12px); font-size:7px; }
+.ios-widget strong { font-size:17px; line-height:1.2; }.ios-widget small { font-size:6px; }
+.ios-app-grid { margin-top:8px; gap:10px 6px; }.ios-app-grid .app-icon { width:28px;height:28px;border-radius:9px; }
+.ios-glass-dock { position:absolute; bottom:14px; left:9px; right:9px; display:flex; justify-content:space-around; padding:7px 2px; border-radius:16px; background:#ffffff55; border:1px solid #ffffff7a; backdrop-filter:blur(15px); font-size:13px; }
+.desktop-screen { width:100%; max-width:510px; height:300px; border-radius:12px; overflow:hidden; position:relative; box-shadow:0 12px 30px #0007; font-family:Arial,sans-serif; font-size:9px; }
+.win-wallpaper { position:absolute; inset:0; background:linear-gradient(135deg,#062e5f,#0875b9 48%,#65c5e8); overflow:hidden; }
+.win-bloom { position:absolute; width:230px;height:190px; left:32%;top:20%; border-radius:48% 52% 63% 37%; transform:rotate(-28deg); background:radial-gradient(ellipse at 30% 30%,#d3f3ff 0%,#59b9f1 22%,#1766c4 48%,#082a62 72%); box-shadow:0 0 45px #a9edff55; }
+.desktop-shortcuts { position:absolute; top:12px; left:10px; display:flex; flex-direction:column; gap:16px; color:white; text-shadow:0 1px 4px #000; }.desktop-shortcuts span,.mac-desktop-icons span { display:flex; flex-direction:column; align-items:center; gap:3px; font-size:18px; }.desktop-shortcuts small,.mac-desktop-icons small { font-size:8px; }
+.win-window { position:absolute; width:77%; height:67%; top:14%; left:12%; border:1px solid #ffffffa8; border-radius:8px; overflow:hidden; background:#f8fafc; box-shadow:0 10px 25px #0003; color:#263345; }
+.win-titlebar { display:flex; justify-content:space-between; padding:9px 10px; background:#f4f6f9; font-size:9px; }.win-address { padding:7px 10px; border-top:1px solid #e2e8f0; border-bottom:1px solid #e2e8f0; background:white; }.win-filebody { display:flex; height:calc(100% - 57px); }.win-filebody aside { width:32%; background:#f0f3f7; padding:10px; line-height:1.65; border-right:1px solid #e2e8f0; }.win-files { display:grid; grid-template-columns:1fr 1fr; align-content:start; gap:14px; padding:15px; }.win-taskbar { position:absolute; bottom:0; left:0; right:0; height:27px; background:#eaf2f8d9; color:#223247; display:flex; justify-content:space-between; align-items:center; padding:0 9px; }.win-taskbar div { font-size:13px; letter-spacing:2px; }
+.mac-screen { background:linear-gradient(145deg,#3c1f64,#e19bc0 52%,#f6d2a5); color:#20212a; }.mac-wallpaper { position:absolute; inset:0; background:radial-gradient(ellipse at 70% 30%,#f9d8c4 0%,#dc8eb3 28%,transparent 50%),linear-gradient(135deg,#211f5b,#b76eaa 55%,#f1c7a1); }
+.mac-menubar { position:absolute; z-index:2; top:0; left:0; right:0; height:22px; background:#f8f8f9bd; backdrop-filter:blur(12px); display:flex; align-items:center; padding:0 8px; font-size:7px; gap:3px; }.mac-menubar span { margin-left:auto; }
+.mac-desktop-icons { position:absolute; top:35px; right:12px; display:flex; flex-direction:column; gap:14px; color:white; text-shadow:0 1px 4px #000; }.mac-window { position:absolute; left:12%;top:18%;width:76%;height:62%; border-radius:9px; overflow:hidden; background:#f7f7f8f2; box-shadow:0 10px 25px #0003; }.mac-titlebar { height:27px; display:flex; gap:4px; align-items:center; justify-content:center; background:#f1f1f3; border-bottom:1px solid #ddd; }.mac-titlebar i { width:7px;height:7px;border-radius:50%;background:#ff5f57;position:absolute;left:8px; }.mac-titlebar i:nth-child(2){left:19px;background:#febc2e}.mac-titlebar i:nth-child(3){left:30px;background:#28c840}.mac-finder { display:flex;height:calc(100% - 27px);font-size:8px; }.mac-finder aside { width:34%;padding:10px 7px;background:#e9e9ed;line-height:1.65;border-right:1px solid #ddd; }.mac-finder>div { padding:12px;flex:1; }.mac-filegrid { display:flex;gap:13px;margin-top:15px;flex-wrap:wrap; }.mac-filegrid span { display:flex;align-items:center;flex-direction:column;font-size:18px; }.mac-filegrid small { font-size:7px; }.mac-dock { position:absolute; bottom:5px; left:20%; right:20%; display:flex;justify-content:space-around;align-items:center;padding:6px 5px;background:#ffffff9c;backdrop-filter:blur(15px);border:1px solid #ffffffb0;border-radius:12px;font-size:15px; }
+.ubuntu-screen { background:#33164e; color:#fff; }.ubuntu-wallpaper { position:absolute;inset:0;background:radial-gradient(ellipse at 75% 40%,#f28b39 0%,#c65343 25%,transparent 54%),linear-gradient(135deg,#35134f,#702a78 48%,#f1a05a); }.ubuntu-topbar { position:absolute;top:0;left:0;right:0;height:22px;background:#24172ee8;display:flex;align-items:center;justify-content:space-between;padding:0 9px;font-size:8px;z-index:2; }.ubuntu-dock { position:absolute;top:30px;bottom:7px;left:5px;width:28px;border-radius:8px;background:#24172ebd;display:flex;flex-direction:column;align-items:center;gap:10px;padding-top:10px;font-size:14px; }.ubuntu-window { position:absolute;top:17%;left:15%;width:76%;height:68%;border-radius:8px;overflow:hidden;background:#faf9f8;color:#29232d;box-shadow:0 10px 24px #0004; }.ubuntu-titlebar { height:27px;background:#f0efee;display:flex;align-items:center;justify-content:space-between;padding:0 10px;font-size:9px;border-bottom:1px solid #ddd; }.ubuntu-filebody { display:flex;height:calc(100% - 27px);font-size:8px; }.ubuntu-filebody aside { width:34%;background:#f2f0ef;padding:10px 7px;line-height:1.65;border-right:1px solid #ddd; }.ubuntu-filebody>div { padding:10px;flex:1; }.ubuntu-path { padding-bottom:8px;border-bottom:1px solid #ddd; }.ubuntu-files { display:grid;grid-template-columns:1fr 1fr;gap:13px;padding-top:15px; }.ubuntu-files span { display:flex;align-items:center;flex-direction:column;font-size:18px; }.ubuntu-files small { font-size:7px; }
+@media(max-width:640px){.desktop-screen{height:250px}.os-preview{min-height:260px}.phone-frame{height:300px;width:184px}.win-window{width:82%;left:9%}.mac-window{width:80%;left:10%}.ubuntu-window{width:80%;left:13%}}
+
+        .quiz-option{display:flex;align-items:flex-start;gap:.65rem;padding:.85rem;border:1px solid #e2e8f0;border-radius:.85rem;background:#fff;cursor:pointer;transition:border-color .15s,background .15s;min-height:3.5rem}
+        .quiz-option:hover{border-color:#a5b4fc;background:#f8faff}
+        .quiz-option:has(input:checked){border-color:#6366f1;background:#eef2ff}
+        .quiz-option input{margin-top:.25rem;accent-color:#4f46e5;flex-shrink:0}
+        .quiz-option span{font-size:.9rem;line-height:1.45;color:#334155}
+        .quiz-feedback{line-height:1.5}
+        .quiz-question{position:relative;overflow:hidden;transition:border-color .2s,box-shadow .2s,transform .2s;display:none}.quiz-question.active{display:block;animation:quizIn .28s ease-out}@keyframes quizIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+        .quiz-question:focus-within{border-color:#818cf8;box-shadow:0 8px 24px -18px #4338ca}
+        .quiz-question > p:first-child{font-size:1rem;line-height:1.55}
+        .quiz-option:has(input:checked){box-shadow:0 0 0 2px rgb(99 102 241 / .08)}
+        @media(max-width:640px){.quiz-option{padding:.8rem}.quiz-question{padding:1rem}}
+</style>
+</head>
+<body id="top" class="bg-slate-50 text-slate-800 antialiased hero-gradient selection:bg-indigo-500 selection:text-white">
+
+    <!-- Navbar: navigasi utama dipadatkan, seluruh materi tetap mudah ditemukan -->
+    <nav class="site-nav sticky top-0 z-50 no-print" aria-label="Navigasi utama">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6">
+            <div class="nav-main flex items-center justify-between gap-4">
+                <a href="#top" class="brand flex items-center gap-3 shrink-0" aria-label="Software 101, kembali ke atas">
+                    <span class="brand-mark"><i class="fa-solid fa-code"></i></span>
+                    <span class="brand-name">Software<span>101</span><small>LEARN • EXPLORE • PRACTICE</small></span>
+                </a>
+                <div class="hidden lg:flex items-center gap-1 nav-links">
+                    <a href="#analogi" class="nav-link">Dasar</a>
+                    <a href="#rumahnya" class="nav-link">Sistem</a>
+                    <a href="#dapur" class="nav-link">Cara Kerja</a>
+                    <details class="nav-dropdown">
+                        <summary class="nav-link">Semua materi <i class="fa-solid fa-chevron-down text-[10px] ml-1"></i></summary>
+                        <div class="nav-dropdown-panel">
+                            <p class="nav-dropdown-label">JELAJAHI MATERI</p>
+                            <a href="#analogi"><i class="fa-solid fa-cubes"></i><span><b>Konsep dasar</b><small>Hardware & software</small></span></a>
+                            <a href="#simulasi"><i class="fa-solid fa-mobile-screen-button"></i><span><b>Simulasi perangkat</b><small>Kenali antarmuka OS</small></span></a>
+                            <a href="#rumahnya"><i class="fa-solid fa-layer-group"></i><span><b>Sistem operasi</b><small>Kernel, driver, proses</small></span></a>
+                            <a href="#jenis"><i class="fa-solid fa-shapes"></i><span><b>Jenis software</b><small>Aplikasi & utility</small></span></a>
+                            <a href="#dapur"><i class="fa-solid fa-code"></i><span><b>Cara kerja software</b><small>Kode, eksekusi, debugging</small></span></a>
+                            <a href="#evolusi"><i class="fa-solid fa-timeline"></i><span><b>Evolusi</b><small>Perkembangan software</small></span></a>
+                            <a href="#glosarium"><i class="fa-solid fa-book-open"></i><span><b>Glosarium</b><small>Istilah teknis</small></span></a>
+                            <a href="#troubleshooting"><i class="fa-solid fa-stethoscope"></i><span><b>Studi kasus</b><small>Diagnosis masalah</small></span></a>
+                            <a href="#lab"><i class="fa-solid fa-terminal"></i><span><b>Lab virtual</b><small>Terminal simulasi</small></span></a>
+                            <a href="#kuis"><i class="fa-solid fa-clipboard-check"></i><span><b>Evaluasi</b><small>Uji pemahaman</small></span></a>
+                        </div>
+                    </details>
+                    <a href="#lab" class="nav-link">Lab virtual</a>
+                    <a href="#analogi" class="nav-cta">Mulai belajar <i class="fa-solid fa-arrow-right text-xs"></i></a>
+                </div>
+                <button id="mobile-menu-toggle" type="button" aria-expanded="false" aria-controls="mobile-menu" class="lg:hidden mobile-menu-button"><i class="fa-solid fa-bars mr-2"></i>Materi</button>
+            </div>
+            <div id="mobile-menu" class="hidden lg:hidden mobile-menu-panel">
+                <p class="nav-dropdown-label">DAFTAR MATERI</p>
+                <div class="grid grid-cols-2 gap-2">
+                    <a href="#analogi">01 · Dasar</a><a href="#simulasi">Simulasi HP</a>
+                    <a href="#rumahnya">02 · Sistem operasi</a><a href="#jenis">03 · Jenis software</a>
+                    <a href="#dapur">04 · Cara kerja</a><a href="#evolusi">Evolusi</a>
+                    <a href="#glosarium">Glosarium</a><a href="#troubleshooting">Studi kasus</a>
+                    <a href="#lab">Lab virtual</a><a href="#kuis">Kuis & esai</a>
+                </div>
+            </div>
+        </div>
+        <div class="progress-track" aria-label="Progres membaca"><div id="reading-progress"></div></div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="max-w-6xl mx-auto px-4 py-16 md:py-24 text-center">
+        <div class="inline-flex items-center space-x-2 bg-indigo-50 text-indigo-700 text-xs font-bold px-4 py-2 rounded-full uppercase tracking-wider mb-6 border border-indigo-100 shadow-sm">
+            <i class="fa-solid fa-sparkles text-indigo-500"></i>
+            <span>Panduan Interaktif • Pemula hingga Dasar Teknis</span>
+        </div>
+        <h1 class="text-4xl md:text-6xl font-extrabold text-slate-900 tracking-tight mb-6 leading-tight">
+            Memahami <span class="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-violet-600">Software</span><br>Dari Konsep ke Praktik.
+        </h1>
+        <p class="text-lg md:text-xl text-slate-600 max-w-2xl mx-auto mb-10 leading-relaxed">
+            Pelajari hubungan hardware, sistem operasi, aplikasi, memori, dan jaringan melalui contoh sehari-hari, visualisasi, serta simulasi teknis yang aman.
+        </p>
+        <div class="flex justify-center gap-4">
+            <a href="#analogi" class="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold px-8 py-4 rounded-2xl shadow-xl shadow-indigo-200 transition duration-200 flex items-center space-x-2">
+                <span>Mulai dari Konsep Dasar</span>
+                <i class="fa-solid fa-arrow-down text-sm"></i>
+            </a>
+        </div>
+    </header>
+
+    <!-- Peta belajar: menunjukkan hubungan antarbab sebelum pembaca mulai -->
+    <section aria-labelledby="learning-path-title" class="max-w-6xl mx-auto px-4 pb-8 -mt-4">
+      <div class="bg-white/90 border border-slate-200 rounded-3xl p-5 md:p-7 shadow-sm">
+        <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-3 mb-5">
+          <div><p class="text-xs font-extrabold uppercase tracking-widest text-indigo-600 mb-2">Peta belajar</p><h2 id="learning-path-title" class="text-xl md:text-2xl font-extrabold text-slate-900">Ikuti alurnya: dari perangkat hingga diagnosis masalah</h2></div>
+          <p class="text-sm text-slate-500 max-w-md">Setiap tahap menyiapkan konsep untuk tahap berikutnya. Istilah teknis tetap digunakan dan dijelaskan saat pertama muncul.</p>
+        </div>
+        <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-3">
+          <a href="#analogi" class="path-step rounded-2xl border border-indigo-100 bg-indigo-50/70 p-4"><span class="path-number">01</span><strong class="block text-slate-900 mt-2">Kenali komponen</strong><span class="block text-sm text-slate-600 mt-1">Hardware, software, input, proses, output.</span></a>
+          <a href="#rumahnya" class="path-step rounded-2xl border border-slate-200 bg-slate-50 p-4"><span class="path-number">02</span><strong class="block text-slate-900 mt-2">Pahami lapisannya</strong><span class="block text-sm text-slate-600 mt-1">OS, driver, aplikasi, dan sumber daya.</span></a>
+          <a href="#dapur" class="path-step rounded-2xl border border-slate-200 bg-slate-50 p-4"><span class="path-number">03</span><strong class="block text-slate-900 mt-2">Lihat cara kerjanya</strong><span class="block text-sm text-slate-600 mt-1">Kode, eksekusi, bug, dan layanan cloud.</span></a>
+          <a href="#troubleshooting" class="path-step rounded-2xl border border-slate-200 bg-slate-50 p-4"><span class="path-number">04</span><strong class="block text-slate-900 mt-2">Terapkan pengetahuan</strong><span class="block text-sm text-slate-600 mt-1">Diagnosis, terminal simulasi, dan evaluasi.</span></a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Bagian 1: Hardware vs Software & Hubungannya -->
+    <section id="analogi" class="max-w-6xl mx-auto px-4 py-16">
+        <div class="text-center max-w-2xl mx-auto mb-12">
+            <h2 class="text-2xl md:text-3xl font-extrabold text-slate-900 mb-3">1. Apa itu Software, Hardware, dan Hubungannya?</h2>
+            <p class="text-slate-600">Kita mulai dari perangkat yang sudah kamu kenal. Saat membuka aplikasi di HP atau laptop, ada komponen fisik dan program yang bekerja sama. Keduanya disebut hardware dan software.</p>
+        </div>
+
+        <div class="grid md:grid-cols-2 gap-8 items-stretch mb-8">
+            <!-- Hardware -->
+            <div class="bg-white p-8 rounded-3xl border border-slate-100 shadow-lg shadow-slate-100 card-hover relative overflow-hidden flex flex-col justify-between">
+                <div class="absolute top-0 right-0 bg-amber-50 text-amber-700 text-xs font-bold px-4 py-2 rounded-bl-2xl border-l border-b border-amber-100">
+                    Wujud Fisik
+                </div>
+                <div>
+                    <div class="w-14 h-14 bg-amber-50 text-amber-600 rounded-2xl flex items-center justify-center text-2xl mb-6 shadow-sm">
+                        <i class="fa-solid fa-laptop"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-slate-900 mb-3">Hardware (Perangkat Keras)</h3>
+                    <p class="text-slate-600 mb-4 leading-relaxed">
+                        Hardware adalah semua bagian fisik perangkat yang bisa dilihat atau disentuh. Komponen ini menerima input, memproses data, menyimpan data, atau menampilkan hasil. Analogi sederhananya seperti bagian tubuh yang melakukan pekerjaan tertentu.
+                    </p>
+                </div>
+                <div class="bg-slate-50 p-4 rounded-2xl text-sm text-slate-600 border border-slate-100">
+                    <b>Contoh nyata:</b> Layar dan keyboard sebagai perangkat input/output, RAM untuk menyimpan data sementara saat program berjalan, SSD untuk menyimpan file, serta CPU untuk menjalankan instruksi.
+                </div>
+            </div>
+
+            <!-- Software -->
+            <div class="bg-white p-8 rounded-3xl border border-slate-100 shadow-lg shadow-slate-100 card-hover relative overflow-hidden flex flex-col justify-between">
+                <div class="absolute top-0 right-0 bg-indigo-50 text-indigo-700 text-xs font-bold px-4 py-2 rounded-bl-2xl border-l border-b border-indigo-100">
+                    Tak Kasat Mata (Digital)
+                </div>
+                <div>
+                    <div class="w-14 h-14 bg-indigo-50 text-indigo-600 rounded-2xl flex items-center justify-center text-2xl mb-6 shadow-sm">
+                        <i class="fa-solid fa-file-lines"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-slate-900 mb-3">Software (Perangkat Lunak)</h3>
+                    <p class="text-slate-600 mb-4 leading-relaxed">
+                        Software adalah kumpulan program, instruksi, dan data yang memberi tahu perangkat cara menjalankan tugas. Software tidak bisa disentuh seperti komponen fisik, tetapi hasil kerjanya bisa kita lihat melalui aplikasi dan tampilan layar.
+                    </p>
+                </div>
+                <div class="bg-slate-50 p-4 rounded-2xl text-sm text-slate-600 border border-slate-100">
+                    <b>Contoh nyata:</b> WhatsApp untuk berkirim pesan, Chrome untuk membuka situs web, serta Android dan Windows sebagai sistem operasi. Sistem operasi juga termasuk software, tetapi tugasnya lebih mendasar daripada aplikasi biasa.
+                </div>
+            </div>
+        </div>
+
+        <!-- Penjelasan Hubungan Keduanya -->
+        <div class="bg-white p-8 md:p-10 rounded-3xl border border-slate-100 shadow-xl shadow-slate-100 relative overflow-hidden">
+            <div class="flex items-center space-x-3 text-indigo-600 font-bold mb-4">
+                <div class="w-10 h-10 rounded-xl bg-indigo-50 flex items-center justify-center">
+                    <i class="fa-solid fa-link text-lg"></i>
+                </div>
+                <span class="text-lg text-slate-900">Bagaimana Hubungan Keduanya? (Saling Membutuhkan)</span>
+            </div>
+            <p class="text-slate-600 leading-relaxed mb-6">
+                Hardware dan software memiliki tugas berbeda, tetapi saling bekerja sama. Saat kamu menekan tombol, perangkat menerima <i>input</i>, software memproses instruksi menggunakan sumber daya hardware, lalu hasilnya ditampilkan sebagai <i>output</i>.
+            </p>
+            <div class="grid md:grid-cols-3 gap-4 text-sm">
+                <div class="bg-slate-50 p-5 rounded-2xl border border-slate-100">
+                    <div class="font-bold text-slate-900 mb-2 flex items-center">
+                        <span class="w-6 h-6 rounded-full bg-indigo-600 text-white flex items-center justify-center text-xs mr-2">1</span>
+                        Tanpa Software, Fungsi Perangkat Terbatas
+                    </div>
+                    <p class="text-slate-600">Perangkat bisa menyala dan menjalankan pemeriksaan awal melalui firmware, tetapi jika sistem operasi tidak tersedia atau rusak, komputer biasanya tidak bisa masuk ke lingkungan kerja normal.</p>
+                </div>
+                <div class="bg-slate-50 p-5 rounded-2xl border border-slate-100">
+                    <div class="font-bold text-slate-900 mb-2 flex items-center">
+                        <span class="w-6 h-6 rounded-full bg-indigo-600 text-white flex items-center justify-center text-xs mr-2">2</span>
+                        Tanpa Hardware, Software Tidak Dieksekusi
+                    </div>
+                    <p class="text-slate-600">Software perlu dijalankan oleh perangkat komputasi. CPU menjalankan banyak instruksi umum, GPU membantu pekerjaan grafis tertentu, RAM menampung data yang sedang dipakai, dan layar menampilkan hasilnya.</p>
+                </div>
+                <div class="bg-slate-50 p-5 rounded-2xl border border-slate-100">
+                    <div class="font-bold text-slate-900 mb-2 flex items-center">
+                        <span class="w-6 h-6 rounded-full bg-indigo-600 text-white flex items-center justify-center text-xs mr-2">3</span>
+                        Kolaborasi Nyata
+                    </div>
+                    <p class="text-slate-600">Contoh: saat mengetik pesan, layar sentuh mengirim input ke sistem. Aplikasi pesan memproses teks, sistem operasi mengatur akses jaringan, lalu perangkat mengirim data melalui Wi-Fi atau jaringan seluler. Balasan yang datang diproses dan ditampilkan kembali di layar.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Simulasi Rakit HP Digital -->
+    <section id="simulasi" class="bg-indigo-900 text-white py-16 my-8">
+        <div class="max-w-4xl mx-auto px-4 text-center">
+            <span class="bg-indigo-800 text-indigo-300 text-xs font-bold px-3 py-1.5 rounded-full uppercase tracking-wider border border-indigo-700">Simulasi Interaktif</span>
+            <h2 class="text-2xl md:text-3xl font-extrabold mt-3 mb-3">Uji Coba: Merakit HP Digital</h2>
+            <p class="text-slate-300 text-sm mb-4">Hubungkan konsep hardware dan software yang baru dipelajari dengan hasil yang terlihat pada perangkat.</p><p class="text-indigo-200 text-xs mb-8">Tujuan: bedakan komponen fisik, firmware, dan sistem operasi. Ini model sederhana untuk belajar, bukan simulasi rangkaian elektronik sungguhan.</p>
+
+            <div class="bg-slate-800 p-8 rounded-3xl border border-slate-700 shadow-2xl text-left grid md:grid-cols-2 gap-8 items-center">
+                <div class="space-y-4">
+                    <h3 class="font-bold text-lg text-white">Panel Kontrol Rakitan:</h3>
+                    <div class="space-y-2">
+                        <label class="flex items-center space-x-3 p-3 rounded-xl bg-slate-900/60 border border-slate-700 cursor-pointer">
+                            <input type="checkbox" id="chk-hardware" onchange="updateSimulation()" class="w-5 h-5 rounded text-indigo-600 focus:ring-indigo-500">
+                            <span class="text-sm font-medium">Pasang Hardware (Layar, Baterai, Chip)</span>
+                        </label>
+                        <label class="flex items-center space-x-3 p-3 rounded-xl bg-slate-900/60 border border-slate-700 cursor-pointer">
+                            <input type="checkbox" id="chk-software" onchange="updateSimulation()" class="w-5 h-5 rounded text-indigo-600 focus:ring-indigo-500">
+                            <span class="text-sm font-medium">Install Software (Sistem Operasi & Aplikasi)</span>
+                        </label>
+                    </div>
+                    <p id="sim-desc" class="text-xs text-slate-400 italic pt-2">
+                        Status: Perangkat masih dalam kondisi kotak kosong mati total. Silakan centang komponen di atas!
+                    </p>
+                </div>
+
+                <div class="bg-slate-900 p-6 rounded-2xl border border-slate-700 text-center flex flex-col items-center justify-center min-h-[180px]">
+                    <div id="sim-screen-icon" class="text-4xl text-slate-600 mb-3">
+                        <i class="fa-solid fa-mobile-screen"></i>
+                    </div>
+                    <div id="sim-screen-text" class="font-bold text-slate-400 text-base">
+                        LAYAR MATI (GELAP)
+                    </div>
+                    <p id="sim-screen-sub" class="text-xs text-slate-500 mt-1">Belum ada tanda-tanda kehidupan.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Bagian 2: "Rumah" Software (Sistem Operasi) - Lengkap 5 OS utama -->
+    <section id="rumahnya" class="bg-slate-900 text-white py-20 my-12 relative overflow-hidden">
+        <div class="max-w-6xl mx-auto px-4 relative z-10">
+            <div class="text-center max-w-2xl mx-auto mb-12">
+                <span class="text-indigo-400 text-xs font-bold uppercase tracking-wider bg-indigo-950/80 px-3 py-1.5 rounded-full border border-indigo-800">Pondasi Utama</span>
+                <h2 class="text-2xl md:text-3xl font-extrabold mt-4 mb-3">2. "Rumah" Tempat Software Tinggal (Sistem Operasi)</h2>
+                <p class="text-slate-400">Sistem operasi atau <b>Operating System (OS)</b> adalah software utama yang mengelola sumber daya perangkat—seperti CPU, RAM, penyimpanan, layar, dan jaringan—serta menyediakan layanan agar aplikasi dapat berjalan. Contohnya Android, iOS, Windows, macOS, dan Ubuntu Linux.</p>
+            </div>
+
+            <!-- Pilihan OS Interaktif -->
+            <div class="grid grid-cols-2 md:grid-cols-5 gap-4 mb-8">
+                <button onclick="changeOS('android')" aria-pressed="true" id="btn-android" class="os-btn text-left p-4 rounded-2xl border-2 border-indigo-500 bg-slate-800/90 shadow-lg transition duration-200">
+                    <div class="flex items-center space-x-2 mb-2">
+                        <i class="fa-brands fa-android text-emerald-400 text-xl"></i>
+                        <span class="font-bold text-sm text-white">Android</span>
+                    </div>
+                    <p class="text-xs text-slate-400">HP dari berbagai merek</p>
+                </button>
+
+                <button onclick="changeOS('ios')" aria-pressed="false" id="btn-ios" class="os-btn text-left p-4 rounded-2xl border-2 border-slate-800 bg-slate-800/40 hover:border-slate-700 transition duration-200">
+                    <div class="flex items-center space-x-2 mb-2">
+                        <i class="fa-brands fa-apple text-slate-200 text-xl"></i>
+                        <span class="font-bold text-sm text-white">iOS</span>
+                    </div>
+                    <p class="text-xs text-slate-400">iPhone</p>
+                </button>
+
+                <button onclick="changeOS('windows')" aria-pressed="false" id="btn-windows" class="os-btn text-left p-4 rounded-2xl border-2 border-slate-800 bg-slate-800/40 hover:border-slate-700 transition duration-200">
+                    <div class="flex items-center space-x-2 mb-2">
+                        <i class="fa-brands fa-windows text-sky-400 text-xl"></i>
+                        <span class="font-bold text-sm text-white">Windows</span>
+                    </div>
+                    <p class="text-xs text-slate-400">Laptop / PC Kerja</p>
+                </button>
+
+                <button onclick="changeOS('macos')" aria-pressed="false" id="btn-macos" class="os-btn text-left p-4 rounded-2xl border-2 border-slate-800 bg-slate-800/40 hover:border-slate-700 transition duration-200">
+                    <div class="flex items-center space-x-2 mb-2">
+                        <i class="fa-solid fa-desktop text-purple-400 text-xl"></i>
+                        <span class="font-bold text-sm text-white">macOS</span>
+                    </div>
+                    <p class="text-xs text-slate-400">MacBook & iMac</p>
+                </button>
+
+                <button onclick="changeOS('linux')" aria-pressed="false" id="btn-linux" class="os-btn text-left p-4 rounded-2xl border-2 border-slate-800 bg-slate-800/40 hover:border-slate-700 transition duration-200 col-span-2 md:col-span-1">
+                    <div class="flex items-center space-x-2 mb-2">
+                        <i class="fa-brands fa-linux text-amber-400 text-xl"></i>
+                        <span class="font-bold text-sm text-white">Linux</span>
+                    </div>
+                    <p class="text-xs text-slate-400">Ubuntu / Server / Programmer</p>
+                </button>
+            </div>
+
+            <!-- Tampilan Visual Contoh Sistem Operasi -->
+            <div class="bg-slate-800/90 p-6 md:p-8 rounded-3xl border border-slate-700/80 shadow-2xl flex flex-col md:flex-row items-center gap-8">
+                <div class="w-full md:w-1/2 rounded-2xl overflow-hidden shadow-inner bg-slate-950 border border-slate-700 flex items-center justify-center min-h-[330px] p-3 md:p-5">
+                    <img id="os-preview" class="w-full max-h-[440px] object-contain rounded-xl bg-slate-950" src="https://commons.wikimedia.org/wiki/Special:FilePath/Android_17_screenshot.png?width=900" alt="Tangkapan layar nyata layar utama Android 17"><p id="os-source" class="text-xs text-slate-400 mt-2 text-center">Sumber: <a class="underline text-cyan-300 hover:text-white" href="https://commons.wikimedia.org/wiki/File:Android_17_screenshot.png" target="_blank" rel="noopener noreferrer">Wikimedia Commons — Android 17 screenshot</a></p>
+                </div>
+                <div class="w-full md:w-1/2 space-y-4">
+                    <div class="inline-block text-xs uppercase tracking-wider text-indigo-300 font-bold bg-indigo-950 px-3 py-1 rounded-full border border-indigo-900">Tangkapan Layar Asli</div>
+                    <h3 id="os-title" class="text-2xl font-bold text-white">Android 17 — Layar Utama</h3>
+                    <p id="os-desc" class="text-slate-300 text-sm leading-relaxed">
+                        Contoh tangkapan layar Android 17. Android digunakan oleh berbagai produsen, sehingga tampilan dapat berbeda antara perangkat Pixel, Samsung, Xiaomi, dan merek lainnya.
+                    </p>
+                </div>
+            </div>
+            <p class="text-xs text-slate-400 mt-4 text-center">Semua gambar pada bagian ini adalah tangkapan layar nyata dari sumber yang ditautkan, bukan gambar buatan. Versi, model perangkat, tema, bahasa, dan pengaturan dapat membuat tampilan pada perangkat pengguna berbeda.</p>
+        </div>
+    </section>
+
+    <!-- Bagian 3: Jenis-Jenis Software -->
+    <section id="jenis" class="max-w-6xl mx-auto px-4 py-16">
+        <div class="text-center max-w-2xl mx-auto mb-12">
+            <h2 class="text-2xl md:text-3xl font-extrabold text-slate-900 mb-3">3. Sebenarnya, Apa Saja Jenis Software Itu?</h2>
+            <p class="text-slate-600">Setelah mengenal sistem operasi, sekarang petakan software berdasarkan perannya. Kategori ini membantu membedakan program yang mengelola perangkat, membantu pengguna, memelihara sistem, atau digunakan untuk membangun software lain.</p>
+        </div>
+
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <!-- Jenis 1 -->
+            <div class="bg-white p-6 rounded-3xl border border-slate-100 shadow-lg shadow-slate-100 card-hover flex flex-col justify-between">
+                <div>
+                    <div class="w-12 h-12 bg-indigo-50 text-indigo-600 rounded-2xl flex items-center justify-center text-lg mb-4 font-bold shadow-sm">1</div>
+                    <h3 class="text-lg font-bold text-slate-900 mb-2">Software Sistem (OS)</h3>
+                    <p class="text-sm text-slate-600 mb-4 leading-relaxed">
+                        Sistem operasi (OS) mengatur penggunaan CPU, RAM, penyimpanan, file, perangkat input/output, dan akses jaringan. OS juga menyediakan layanan yang dipakai aplikasi, sehingga aplikasi tidak perlu mengendalikan setiap komponen hardware secara langsung.
+                    </p>
+                </div>
+                <div class="text-xs text-slate-500 bg-slate-50 p-3 rounded-2xl border border-slate-100">
+                    <b>Contoh:</b> Android, iOS, Windows, macOS, Linux.
+                </div>
+            </div>
+
+            <!-- Jenis 2 -->
+            <div class="bg-white p-6 rounded-3xl border border-slate-100 shadow-lg shadow-slate-100 card-hover flex flex-col justify-between">
+                <div>
+                    <div class="w-12 h-12 bg-amber-50 text-amber-600 rounded-2xl flex items-center justify-center text-lg mb-4 font-bold shadow-sm">2</div>
+                    <h3 class="text-lg font-bold text-slate-900 mb-2">Driver & Utility</h3>
+                    <p class="text-sm text-slate-600 mb-4 leading-relaxed">
+                        <b>Driver</b> membantu OS berkomunikasi dengan perangkat tertentu, misalnya printer atau kartu grafis. <b>Utility</b> adalah alat untuk tugas pemeliharaan atau keamanan, seperti memeriksa penyimpanan atau memindai malware. Keduanya punya fungsi berbeda meskipun sama-sama mendukung kerja komputer.
+                    </p>
+                </div>
+                <div class="text-xs text-slate-500 bg-slate-50 p-3 rounded-2xl border border-slate-100">
+                    <b>Contoh:</b> driver printer, driver grafis, Windows Security untuk perlindungan, dan alat pemeriksaan disk. Pastikan mengunduh driver dari sumber resmi perangkat.
+                </div>
+            </div>
+
+            <!-- Jenis 3 -->
+            <div class="bg-white p-6 rounded-3xl border border-slate-100 shadow-lg shadow-slate-100 card-hover flex flex-col justify-between">
+                <div>
+                    <div class="w-12 h-12 bg-emerald-50 text-emerald-600 rounded-2xl flex items-center justify-center text-lg mb-4 font-bold shadow-sm">3</div>
+                    <h3 class="text-lg font-bold text-slate-900 mb-2">Software Aplikasi</h3>
+                    <p class="text-sm text-slate-600 mb-4 leading-relaxed">
+                        Software aplikasi membantu pengguna melakukan pekerjaan tertentu. Aplikasi berjalan di atas sistem operasi dan menggunakan layanan yang disediakan OS, misalnya untuk membuka file, menampilkan jendela, atau mengakses jaringan.
+                    </p>
+                </div>
+                <div class="text-xs text-slate-500 bg-slate-50 p-3 rounded-2xl border border-slate-100">
+                    <b>Contoh:</b> WhatsApp, YouTube, Microsoft Word, Mobile Legends.
+                </div>
+            </div>
+
+            <!-- Jenis 4 -->
+            <div class="bg-white p-6 rounded-3xl border border-slate-100 shadow-lg shadow-slate-100 card-hover flex flex-col justify-between">
+                <div>
+                    <div class="w-12 h-12 bg-sky-50 text-sky-600 rounded-2xl flex items-center justify-center text-lg mb-4 font-bold shadow-sm">4</div>
+                    <h3 class="text-lg font-bold text-slate-900 mb-2">Software Pemrograman</h3>
+                    <p class="text-sm text-slate-600 mb-4 leading-relaxed">
+                        Software pengembangan membantu programmer menulis, menjalankan, menguji, dan memperbaiki kode. Editor kode digunakan untuk menulis, debugger membantu mencari sumber masalah, sedangkan compiler atau interpreter membantu menjalankan atau menerjemahkan kode sesuai bahasa pemrogramannya.
+                    </p>
+                </div>
+                <div class="text-xs text-slate-500 bg-slate-50 p-3 rounded-2xl border border-slate-100">
+                    <b>Contoh:</b> Visual Studio Code sebagai editor, Android Studio sebagai lingkungan pengembangan Android (IDE), serta Python sebagai bahasa pemrograman beserta interpreter-nya.
+                </div>
+            </div>
+
+            <!-- Jenis 5 -->
+            <div class="bg-white p-6 rounded-3xl border border-slate-100 shadow-lg shadow-slate-100 card-hover md:col-span-2 lg:col-span-2 flex flex-col justify-between">
+                <div>
+                    <div class="w-12 h-12 bg-purple-50 text-purple-600 rounded-2xl flex items-center justify-center text-lg mb-4 font-bold shadow-sm">5</div>
+                    <h3 class="text-lg font-bold text-slate-900 mb-2">Software Berbasis Web / Cloud (SaaS)</h3>
+                    <p class="text-sm text-slate-600 mb-4 leading-relaxed">
+                        Software berbasis web diakses melalui browser, sedangkan <b>cloud</b> berarti sebagian layanan atau pemrosesan menggunakan server melalui jaringan. <b>SaaS</b> (Software as a Service) adalah model layanan software yang dikelola penyedia dan digunakan melalui internet; kadang lewat browser, kadang lewat aplikasi. Tidak semua aplikasi web memproses seluruh data di server.
+                    </p>
+                </div>
+                <div class="text-xs text-slate-500 bg-slate-50 p-3 rounded-2xl border border-slate-100">
+                    <b>Contoh:</b> Google Docs dan Canva versi web. Layanan streaming juga memakai server cloud, tetapi biasanya mengirim video ke perangkat untuk diputar di sana.
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Bagian 4: Cara Kerja & Dapur Software -->
+    <section id="dapur" class="bg-indigo-50/50 py-16 border-y border-slate-100">
+        <div class="max-w-6xl mx-auto px-4">
+            <div class="text-center max-w-2xl mx-auto mb-12">
+                <span class="bg-indigo-100 text-indigo-700 text-xs font-bold px-3 py-1.5 rounded-full uppercase tracking-wider">Proses Pembuatan</span>
+                <h2 class="text-2xl md:text-3xl font-extrabold text-slate-900 mt-3 mb-3">4. Bagaimana Cara Software Dibuat & Bekerja?</h2>
+                <p class="text-slate-600 text-sm">Setelah mengetahui jenis software, kita masuk ke proses pembuatannya. Analogi resep membantu sebagai titik awal; dalam praktik rekayasa perangkat lunak, kebutuhan, desain, source code, testing, debugging, deployment, keamanan, dan maintenance saling berkaitan.</p>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-6 text-center mb-8">
+                <div class="bg-white p-8 rounded-3xl shadow-sm border border-slate-100">
+                    <div class="w-12 h-12 bg-indigo-100 text-indigo-600 rounded-2xl flex items-center justify-center text-xl font-bold mx-auto mb-4">1</div>
+                    <h3 class="font-bold text-slate-900 mb-2">Koki (Programmer)</h3>
+                    <p class="text-xs text-slate-600 leading-relaxed">Programmer menerjemahkan kebutuhan menjadi instruksi menggunakan bahasa pemrograman. Mereka juga membaca dokumentasi, menguji program, mencari penyebab kesalahan, dan memperbaikinya.</p>
+                </div>
+                <div class="bg-white p-8 rounded-3xl shadow-sm border border-slate-100">
+                    <div class="w-12 h-12 bg-indigo-100 text-indigo-600 rounded-2xl flex items-center justify-center text-xl font-bold mx-auto mb-4">2</div>
+                    <h3 class="font-bold text-slate-900 mb-2">Resep (Barisan Kode)</h3>
+                    <p class="text-xs text-slate-600 leading-relaxed">Kode sumber (<i>source code</i>) adalah instruksi yang ditulis programmer. Kesalahan kode atau rancangan dapat menimbulkan <i>bug</i>. Saat masalah muncul, gejalanya bisa berupa pesan error, hasil yang salah, atau aplikasi yang berhenti—dan penyebabnya tidak selalu satu kata yang salah tulis.</p>
+                </div>
+                <div class="bg-white p-8 rounded-3xl shadow-sm border border-slate-100">
+                    <div class="w-12 h-12 bg-indigo-100 text-indigo-600 rounded-2xl flex items-center justify-center text-xl font-bold mx-auto mb-4">3</div>
+                    <h3 class="font-bold text-slate-900 mb-2">Masakan Siap Santap (Aplikasi)</h3>
+                    <p class="text-xs text-slate-600 leading-relaxed">Setelah dibuat dan diuji, program bisa dikemas menjadi aplikasi yang digunakan orang. Pengguna biasanya berinteraksi melalui antarmuka (UI), sementara proses di balik layar menjalankan instruksi dan mengolah data.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- NEW SECTION: Timeline Visual Evolusi Software -->
+    <section id="evolusi" class="max-w-6xl mx-auto px-4 py-16">
+        <div class="text-center max-w-2xl mx-auto mb-12">
+            <span class="bg-indigo-50 text-indigo-700 text-xs font-bold px-3 py-1.5 rounded-full uppercase tracking-wider border border-indigo-100">Perjalanan Sejarah</span>
+            <h2 class="text-2xl md:text-3xl font-extrabold text-slate-900 mt-3 mb-3">Evolusi Software dari Masa ke Masa</h2>
+            <p class="text-slate-600 text-sm">Bagaimana software bertransformasi dari barisan teks layar hitam sampai menjadi kecerdasan buatan masa kini.</p>
+        </div>
+
+        <!-- Timeline Navigasi Era -->
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-3 mb-8">
+            <button onclick="setEra(0)" id="era-btn-0" class="era-tab p-4 rounded-2xl border-2 border-indigo-600 bg-indigo-50/50 text-indigo-900 font-bold text-sm text-center transition flex flex-col items-center justify-center shadow-sm">
+                <span class="text-xs text-indigo-600 font-mono">1970–1980s</span>
+                <span class="text-base mt-1">Era Layar Teks (CLI)</span>
+            </button>
+            <button onclick="setEra(1)" id="era-btn-1" class="era-tab p-4 rounded-2xl border-2 border-slate-200 bg-white text-slate-600 font-bold text-sm text-center transition flex flex-col items-center justify-center hover:border-slate-300">
+                <span class="text-xs text-slate-400 font-mono">1990–2000s</span>
+                <span class="text-base mt-1">Era Jendela & Mouse (GUI)</span>
+            </button>
+            <button onclick="setEra(2)" id="era-btn-2" class="era-tab p-4 rounded-2xl border-2 border-slate-200 bg-white text-slate-600 font-bold text-sm text-center transition flex flex-col items-center justify-center hover:border-slate-300">
+                <span class="text-xs text-slate-400 font-mono">2010s</span>
+                <span class="text-base mt-1">Era Smartphone & App Store</span>
+            </button>
+            <button onclick="setEra(3)" id="era-btn-3" class="era-tab p-4 rounded-2xl border-2 border-slate-200 bg-white text-slate-600 font-bold text-sm text-center transition flex flex-col items-center justify-center hover:border-slate-300">
+                <span class="text-xs text-slate-400 font-mono">Sekarang</span>
+                <span class="text-base mt-1">Era Cloud & AI</span>
+            </button>
+        </div>
+
+        <!-- Kartu Tampilan Era Interactive -->
+        <div class="bg-white rounded-3xl border border-slate-100 shadow-xl overflow-hidden grid md:grid-cols-12 min-h-[380px]">
+            <!-- Visual Preview Simulasi Antarmuka -->
+            <div id="era-visual-bg" class="md:col-span-6 bg-slate-950 p-6 flex items-center justify-center relative overflow-hidden transition-all duration-300">
+                <div id="era-screen-content" class="w-full max-w-sm">
+                    <!-- Dynamic Screen Render via JS -->
+                </div>
+            </div>
+
+            <!-- Detail Keterangan Era -->
+            <div class="md:col-span-6 p-8 flex flex-col justify-between">
+                <div>
+                    <div class="flex items-center space-x-2 mb-3">
+                        <span id="era-badge-year" class="font-mono text-xs font-bold px-2.5 py-1 rounded-md bg-indigo-100 text-indigo-700">1970–1980s</span>
+                        <span id="era-badge-tech" class="text-xs font-semibold text-slate-500">MS-DOS / UNIX</span>
+                    </div>
+                    <h3 id="era-title" class="text-2xl font-extrabold text-slate-900 mb-3">Layar Hitam Tanpa Mouse</h3>
+                    <p id="era-desc" class="text-slate-600 text-sm leading-relaxed mb-6">
+                        Dahulu belum ada gambar, warna-warni, ataupun mouse. Pengguna harus menghafal perintah teks seperti <code class="font-mono bg-slate-100 px-1 py-0.5 rounded text-indigo-600">DIR</code> atau <code class="font-mono bg-slate-100 px-1 py-0.5 rounded text-indigo-600">CD C:\</code> lalu menekan Enter untuk menyuruh komputer bekerja.
+                    </p>
+                </div>
+
+                <div class="bg-slate-50 p-4 rounded-2xl border border-slate-100">
+                    <div class="text-xs font-bold text-slate-900 uppercase tracking-wider mb-1">Dampak & Terobosan:</div>
+                    <p id="era-impact" class="text-xs text-slate-600">Memungkinkan komputer otomatis memproses ribuan instruksi hitungan matematis tanpa memutar pita manual.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- Bagian 5: Kamus Istilah Teknologi (Glossary) -->
+    <section id="glosarium" class="bg-slate-100 py-16 border-y border-slate-200">
+        <div class="max-w-6xl mx-auto px-4">
+            <div class="text-center max-w-2xl mx-auto mb-12">
+                <span class="bg-indigo-100 text-indigo-700 text-xs font-bold px-3 py-1.5 rounded-full uppercase tracking-wider">Kamus Saku</span>
+                <h2 class="text-2xl md:text-3xl font-extrabold text-slate-900 mt-3 mb-3">5. Kamus Istilah Digital Sehari-Hari</h2>
+                <p class="text-slate-600 text-sm">Istilah asing yang sering kamu dengar, dijelaskan tanpa bikin pusing.</p>
+            </div>
+
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div class="bg-white p-6 rounded-3xl border border-slate-200/80 shadow-sm">
+                    <div class="font-bold text-indigo-600 text-base mb-2"><i class="fa-solid fa-bug mr-2"></i>Bug (Cacat Kode)</div>
+                    <p class="text-xs text-slate-600 leading-relaxed"><b>Bug</b> adalah cacat atau kesalahan pada software yang membuat hasilnya tidak sesuai harapan. <b>Error</b> adalah istilah yang lebih umum untuk kesalahan atau kondisi gagal; pesan error dapat membantu kita mencari penyebabnya.</p>
+                </div>
+                <div class="bg-white p-6 rounded-3xl border border-slate-200/80 shadow-sm">
+                    <div class="font-bold text-amber-600 text-base mb-2"><i class="fa-solid fa-trash-can mr-2"></i>Cache (Data Sementara)</div>
+                    <p class="text-xs text-slate-600 leading-relaxed"><b>Cache</b> adalah salinan data sementara yang disimpan agar konten bisa dibuka lebih cepat di kemudian hari. Cache tidak selalu buruk dan biasanya dapat dibuat ulang. Menghapus cache berbeda dari menghapus data aplikasi atau file pribadi.</p>
+                </div>
+                <div class="bg-white p-6 rounded-3xl border border-slate-200/80 shadow-sm">
+                    <div class="font-bold text-rose-600 text-base mb-2"><i class="fa-solid fa-skull-crossbones mr-2"></i>Malware / Virus</div>
+                    <p class="text-xs text-slate-600 leading-relaxed"><b>Malware</b> adalah software yang sengaja dibuat untuk melakukan tindakan berbahaya, misalnya mencuri informasi, memata-matai, atau mengganggu perangkat. Virus dan trojan adalah contoh jenis malware. Waspadai file, tautan, dan aplikasi dari sumber yang tidak tepercaya.</p>
+                </div>
+                <div class="bg-white p-6 rounded-3xl border border-slate-200/80 shadow-sm">
+                    <div class="font-bold text-emerald-600 text-base mb-2"><i class="fa-solid fa-memory mr-2"></i>RAM (Memori Kerja)</div>
+                    <p class="text-xs text-slate-600 leading-relaxed"><b>RAM</b> adalah memori kerja sementara yang digunakan sistem dan aplikasi saat sedang berjalan. RAM berbeda dari penyimpanan seperti SSD atau memori internal: data di RAM umumnya tidak dipertahankan ketika perangkat dimatikan.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Upgrade: Studi Kasus Troubleshooting -->
+    <section id="troubleshooting" class="max-w-6xl mx-auto px-4 py-14">
+      <div class="max-w-3xl mx-auto text-center mb-8"><span class="text-teal-700 bg-teal-50 px-3 py-1.5 rounded-full text-xs font-extrabold uppercase">Belajar lewat kasus</span><h2 class="text-2xl md:text-3xl font-extrabold mt-4 mb-3">Studi Kasus: Cari Sumber Masalah</h2><p class="text-slate-600">Pilih langkah diagnosis yang paling masuk akal. Dalam troubleshooting, satu gejala bisa memiliki beberapa penyebab. Mulailah dari pemeriksaan sederhana dan aman, ubah satu hal pada satu waktu, lalu amati apakah hasilnya berubah.</p></div>
+      <div class="bg-white rounded-3xl border border-slate-200 shadow-lg p-6 md:p-8">
+        <div class="flex flex-wrap items-center justify-between gap-3 mb-4"><span id="case-counter" class="text-xs font-bold uppercase tracking-wide text-teal-700">Kasus 1 dari 4</span><button id="case-next" class="no-print interactive-choice px-4 py-2 rounded-xl border border-slate-200 text-sm font-bold hover:bg-slate-50">Kasus berikutnya <i class="fa-solid fa-arrow-right ml-1"></i></button></div>
+        <h3 id="case-title" class="text-xl font-extrabold mb-2">Laptop menyala tetapi sistem operasi tidak masuk</h3><p id="case-symptom" class="text-slate-600 mb-5">Logo produsen tampil, lalu muncul pesan bahwa perangkat boot tidak ditemukan.</p>
+        <div id="case-options" class="grid md:grid-cols-2 gap-3"></div><div id="case-feedback" class="hidden mt-5 p-4 rounded-2xl text-sm" aria-live="polite"></div>
+      </div>
+    </section>
+
+    <!-- Upgrade: Lab Software Virtual -->
+    <section id="lab" class="bg-slate-950 text-white py-14">
+      <div class="max-w-6xl mx-auto px-4"><div class="max-w-3xl mb-8"><span class="text-cyan-300 bg-cyan-950 px-3 py-1.5 rounded-full text-xs font-extrabold uppercase">Lab aman di browser</span><h2 class="text-2xl md:text-3xl font-extrabold mt-4 mb-3">Lab Software Virtual</h2><p class="text-slate-300">Terminal adalah antarmuka berbasis teks untuk memberi perintah kepada sistem. Di sini kamu mencoba simulasi perintah dasar; perintahnya hanya menghasilkan contoh di halaman ini dan tidak dijalankan di Windows, Linux, atau perangkatmu.</p></div>
+        <div class="grid lg:grid-cols-12 gap-5"><div class="lg:col-span-4 bg-slate-900 border border-slate-700 rounded-2xl p-5"><label for="lab-command" class="block text-sm font-bold mb-2">Pilih perintah simulasi</label><select id="lab-command" class="w-full bg-slate-800 border border-slate-600 rounded-xl p-3 text-white"><option value="help">help — daftar perintah</option><option value="dir">dir — daftar berkas (contoh Windows)</option><option value="pwd">pwd — lokasi direktori (contoh Linux)</option><option value="ipconfig">ipconfig — ringkasan konfigurasi jaringan (simulasi)</option><option value="ping">ping — uji keterjangkauan host (simulasi)</option><option value="clear">clear — bersihkan layar simulasi</option></select><button id="run-lab" class="interactive-choice w-full mt-3 bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-extrabold rounded-xl py-3">Jalankan simulasi <i class="fa-solid fa-play ml-2"></i></button><p class="text-xs text-slate-400 mt-3">Catatan: hasil contoh dibuat lokal oleh halaman ini; tidak mengirim paket jaringan.</p></div>
+        <div class="lg:col-span-8 bg-black border border-slate-700 rounded-2xl overflow-hidden"><div class="flex items-center gap-2 px-4 py-3 border-b border-slate-800"><span class="w-3 h-3 rounded-full bg-rose-500"></span><span class="w-3 h-3 rounded-full bg-amber-400"></span><span class="w-3 h-3 rounded-full bg-emerald-500"></span><span class="text-xs text-slate-400 ml-2 font-mono-code">software101-lab — simulasi</span></div><pre id="lab-output" class="font-mono-code text-sm text-emerald-300 p-5 whitespace-pre-wrap min-h-48" aria-live="polite">Selamat datang di Lab Software 101.
+Pilih perintah lalu tekan “Jalankan simulasi”.</pre></div></div>
+      </div>
+    </section>
+
+    <!-- Upgrade: Ringkasan Materi Ramah Cetak -->
+    <section id="ringkasan" class="max-w-6xl mx-auto px-4 py-14">
+      <div class="bg-white rounded-3xl border border-slate-200 p-6 md:p-8 shadow-sm print-sheet"><div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6"><div><span class="text-blue-700 bg-blue-50 px-3 py-1.5 rounded-full text-xs font-extrabold uppercase">Lembar ringkasan</span><h2 class="text-2xl font-extrabold mt-3">Inti Materi Software 101</h2><p class="text-sm text-slate-500 mt-1">Ringkasan konsep untuk mengulang materi atau dicetak.</p></div><button type="button" onclick="printSection('summary')" class="no-print interactive-choice bg-slate-900 hover:bg-slate-700 text-white px-5 py-3 rounded-xl font-bold"><i class="fa-solid fa-print mr-2"></i>Cetak rangkuman</button></div>
+        <div class="grid md:grid-cols-2 gap-5 text-sm">
+          <div class="p-4 bg-slate-50 rounded-2xl"><h3 class="font-extrabold mb-2">1. Konsep dasar</h3><ul class="list-disc pl-5 space-y-1 text-slate-700"><li><b>Hardware:</b> komponen fisik, seperti CPU, RAM, SSD, layar, dan keyboard.</li><li><b>Software:</b> program dan instruksi yang menjalankan tugas.</li><li><b>Firmware:</b> software tertanam untuk mengendalikan fungsi dasar perangkat.</li><li>Hardware dan software bekerja bersama. Tanpa OS, fungsi perangkat umumnya terbatas.</li></ul></div>
+          <div class="p-4 bg-slate-50 rounded-2xl"><h3 class="font-extrabold mb-2">2. Jenis software</h3><ul class="list-disc pl-5 space-y-1 text-slate-700"><li><b>Sistem operasi:</b> mengelola CPU, memori, file, dan perangkat.</li><li><b>Driver:</b> menghubungkan OS dengan perangkat tertentu.</li><li><b>Aplikasi:</b> membantu tugas pengguna.</li><li><b>Utility:</b> mendukung pemeliharaan dan keamanan sistem.</li><li><b>Alat pengembangan:</b> membantu menulis, menguji, dan memperbaiki kode.</li></ul></div>
+          <div class="p-4 bg-slate-50 rounded-2xl"><h3 class="font-extrabold mb-2">3. Lokal dan cloud</h3><p class="text-slate-700">Software lokal berjalan terutama di perangkat. Layanan cloud memakai server melalui jaringan. Aplikasi dapat memproses data secara lokal sekaligus menyinkronkannya ke cloud.</p></div>
+          <div class="p-4 bg-slate-50 rounded-2xl"><h3 class="font-extrabold mb-2">4. Alur troubleshooting</h3><ol class="list-decimal pl-5 space-y-1 text-slate-700"><li>Catat gejala dan pesan error.</li><li>Periksa koneksi dan perubahan terakhir.</li><li>Uji satu kemungkinan pada satu waktu.</li><li>Cadangkan data sebelum perubahan berisiko.</li><li>Catat hasil dan batalkan perubahan yang tidak membantu.</li></ol></div>
+        </div>
+        <div class="mt-5 rounded-2xl border border-indigo-100 bg-indigo-50 p-4"><h3 class="font-extrabold text-indigo-950 mb-1">Kesimpulan</h3><p class="text-sm text-slate-700">Software memberi instruksi, sedangkan hardware menjalankannya. Sistem operasi mengelola sumber daya dan menyediakan layanan bagi aplikasi. Saat terjadi masalah, lakukan diagnosis bertahap berdasarkan bukti dan hindari tindakan yang berisiko menghapus data.</p></div>
+      </div>
+    </section>
+
+    <!-- Kuis pilihan ganda dan refleksi esai -->
+    <section id="kuis" class="max-w-5xl mx-auto px-4 py-16">
+      <div class="bg-white p-6 md:p-10 rounded-3xl border border-slate-200 shadow-xl">
+        <div class="mb-8">
+          <span class="bg-emerald-50 text-emerald-700 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider">Uji Pemahaman</span>
+          <h2 class="text-2xl md:text-3xl font-extrabold text-slate-900 mt-3 mb-2">Kuis Pilihan Ganda Software 101</h2>
+          <p class="text-slate-600 text-sm leading-relaxed">10 soal berbasis situasi. Pilih jawaban yang paling tepat—bukan sekadar yang terdengar benar. Setelah diperiksa, kamu akan melihat skor dan alasan untuk setiap jawaban.</p>
+        </div>
+        <div class="mb-6 rounded-2xl bg-gradient-to-r from-indigo-600 to-violet-600 p-5 text-white shadow-lg"><div class="flex items-center justify-between gap-3"><div><p class="text-xs uppercase tracking-widest text-indigo-100 font-bold">Mode tantangan</p><p class="text-lg font-extrabold">10 soal · 1 poin per jawaban benar</p></div><div class="text-3xl"><i class="fa-solid fa-trophy"></i></div></div><div class="mt-4 h-2 rounded-full bg-white/25 overflow-hidden"><div id="quiz-progress-bar" class="h-full w-0 bg-amber-300 transition-all duration-300"></div></div><p id="quiz-progress-text" class="text-xs text-indigo-100 mt-2">0 dari 10 soal dijawab</p></div>
+        <form id="software-quiz" class="space-y-5">
+          <article class="quiz-question border border-slate-200 rounded-2xl p-5" data-answer="B" data-explain="Layar dan keyboard adalah perangkat fisik (hardware), sedangkan aplikasi adalah software. Mengetuk layar menjadi input; program memprosesnya dan layar menampilkan output.">
+            <p class="font-bold text-slate-900 mb-4">1. Kamu mengetuk ikon aplikasi kamera. Layar merespons, aplikasi terbuka, lalu gambar tampil. Pernyataan mana yang paling tepat?</p>
+            <div class="grid sm:grid-cols-2 gap-2">
+              <label class="quiz-option"><input type="radio" name="q1" value="A"><span>A. Layar menjalankan aplikasi tanpa bantuan software</span></label>
+              <label class="quiz-option"><input type="radio" name="q1" value="B"><span>B. Sentuhan menjadi input, lalu software memprosesnya</span></label>
+              <label class="quiz-option"><input type="radio" name="q1" value="C"><span>C. Aplikasi kamera termasuk komponen fisik perangkat</span></label>
+              <label class="quiz-option"><input type="radio" name="q1" value="D"><span>D. Gambar tampil sebelum sistem menerima input</span></label>
+            </div><p class="quiz-feedback hidden mt-3 text-sm rounded-xl p-3"></p>
+          </article>
+          <article class="quiz-question border border-slate-200 rounded-2xl p-5" data-answer="C" data-explain="RAM menampung data kerja yang sedang digunakan. Karena bersifat volatil, isinya tidak dipertahankan saat daya terputus; file di SSD tetap tersimpan.">
+            <p class="font-bold text-slate-900 mb-4">2. Dokumen belum disimpan dan komputer tiba-tiba mati. Apa risiko yang paling berkaitan dengan RAM?</p>
+            <div class="grid sm:grid-cols-2 gap-2">
+              <label class="quiz-option"><input type="radio" name="q2" value="A"><span>A. Semua file di SSD otomatis terhapus</span></label>
+              <label class="quiz-option"><input type="radio" name="q2" value="B"><span>B. Kapasitas penyimpanan permanen bertambah</span></label>
+              <label class="quiz-option"><input type="radio" name="q2" value="C"><span>C. Data kerja di RAM dapat hilang</span></label>
+              <label class="quiz-option"><input type="radio" name="q2" value="D"><span>D. Sistem operasi berubah menjadi firmware</span></label>
+            </div><p class="quiz-feedback hidden mt-3 text-sm rounded-xl p-3"></p>
+          </article>
+          <article class="quiz-question border border-slate-200 rounded-2xl p-5" data-answer="A" data-explain="Sistem operasi mengelola sumber daya, proses, memori, berkas, dan perangkat, sekaligus menyediakan layanan agar aplikasi dapat berjalan.">
+            <p class="font-bold text-slate-900 mb-4">3. Beberapa aplikasi berjalan bersamaan. Komponen software mana yang mengatur pembagian memori dan waktu proses?</p>
+            <div class="grid sm:grid-cols-2 gap-2">
+              <label class="quiz-option"><input type="radio" name="q3" value="A"><span>A. Sistem operasi</span></label>
+              <label class="quiz-option"><input type="radio" name="q3" value="B"><span>B. Aplikasi pengolah kata</span></label>
+              <label class="quiz-option"><input type="radio" name="q3" value="C"><span>C. Firmware keyboard</span></label>
+              <label class="quiz-option"><input type="radio" name="q3" value="D"><span>D. File presentasi</span></label>
+            </div><p class="quiz-feedback hidden mt-3 text-sm rounded-xl p-3"></p>
+          </article>
+          <article class="quiz-question border border-slate-200 rounded-2xl p-5" data-answer="D" data-explain="Driver menjadi penghubung agar sistem operasi dapat berkomunikasi dengan perangkat tertentu, misalnya printer atau kartu grafis.">
+            <p class="font-bold text-slate-900 mb-4">4. Printer terhubung secara fisik, tetapi komputer tidak dapat menggunakan fitur printernya dengan benar. Software mana yang paling relevan diperiksa?</p>
+            <div class="grid sm:grid-cols-2 gap-2">
+              <label class="quiz-option"><input type="radio" name="q4" value="A"><span>A. Aplikasi kalkulator</span></label>
+              <label class="quiz-option"><input type="radio" name="q4" value="B"><span>B. Dokumen yang akan dicetak</span></label>
+              <label class="quiz-option"><input type="radio" name="q4" value="C"><span>C. Wallpaper desktop</span></label>
+              <label class="quiz-option"><input type="radio" name="q4" value="D"><span>D. Driver printer</span></label>
+            </div><p class="quiz-feedback hidden mt-3 text-sm rounded-xl p-3"></p>
+          </article>
+          <article class="quiz-question border border-slate-200 rounded-2xl p-5" data-answer="B" data-explain="Firmware adalah software tingkat rendah yang tertanam di perangkat dan membantu mengendalikan fungsi dasar, termasuk proses awal pada banyak perangkat.">
+            <p class="font-bold text-slate-900 mb-4">5. Sebuah perangkat memiliki instruksi dasar yang tertanam untuk mengatur fungsi awalnya. Istilah yang paling sesuai adalah…</p>
+            <div class="grid sm:grid-cols-2 gap-2">
+              <label class="quiz-option"><input type="radio" name="q5" value="A"><span>A. Utility</span></label>
+              <label class="quiz-option"><input type="radio" name="q5" value="B"><span>B. Firmware</span></label>
+              <label class="quiz-option"><input type="radio" name="q5" value="C"><span>C. Dokumen pengguna</span></label>
+              <label class="quiz-option"><input type="radio" name="q5" value="D"><span>D. Layanan cloud</span></label>
+            </div><p class="quiz-feedback hidden mt-3 text-sm rounded-xl p-3"></p>
+          </article>
+          <article class="quiz-question border border-slate-200 rounded-2xl p-5" data-answer="C" data-explain="Aplikasi pesan perlu mengirim dan menerima data melalui jaringan. Kalkulator sederhana umumnya melakukan perhitungan langsung di perangkat.">
+            <p class="font-bold text-slate-900 mb-4">6. Internet mati. Kalkulator masih berfungsi, tetapi pesan baru tidak terkirim. Penjelasan terbaik adalah…</p>
+            <div class="grid sm:grid-cols-2 gap-2">
+              <label class="quiz-option"><input type="radio" name="q6" value="A"><span>A. Semua aplikasi selalu memerlukan cloud</span></label>
+              <label class="quiz-option"><input type="radio" name="q6" value="B"><span>B. Kalkulator berubah menjadi sistem operasi</span></label>
+              <label class="quiz-option"><input type="radio" name="q6" value="C"><span>C. Pesan perlu jaringan; hitungan dasar bisa lokal</span></label>
+              <label class="quiz-option"><input type="radio" name="q6" value="D"><span>D. Internet hanya dipakai untuk menyimpan RAM</span></label>
+            </div><p class="quiz-feedback hidden mt-3 text-sm rounded-xl p-3"></p>
+          </article>
+          <article class="quiz-question border border-slate-200 rounded-2xl p-5" data-answer="A" data-explain="Langkah awal yang aman adalah mengumpulkan bukti dan memeriksa hal sederhana. Menghapus atau memformat data terlalu berisiko sebelum penyebab diketahui.">
+            <p class="font-bold text-slate-900 mb-4">7. Aplikasi berhenti sendiri setelah diperbarui. Apa langkah awal yang paling masuk akal?</p>
+            <div class="grid sm:grid-cols-2 gap-2">
+              <label class="quiz-option"><input type="radio" name="q7" value="A"><span>A. Catat pesan error lalu buka ulang aplikasi</span></label>
+              <label class="quiz-option"><input type="radio" name="q7" value="B"><span>B. Hapus semua data aplikasi saat itu juga</span></label>
+              <label class="quiz-option"><input type="radio" name="q7" value="C"><span>C. Format drive tanpa memeriksa penyebabnya</span></label>
+              <label class="quiz-option"><input type="radio" name="q7" value="D"><span>D. Ganti komponen komputer tanpa diagnosis</span></label>
+            </div><p class="quiz-feedback hidden mt-3 text-sm rounded-xl p-3"></p>
+          </article>
+          <article class="quiz-question border border-slate-200 rounded-2xl p-5" data-answer="D" data-explain="Pesan itu umumnya berarti perangkat tidak menemukan media atau sistem yang bisa digunakan untuk memulai OS. Periksa deteksi drive dan urutan boot sebelum tindakan berisiko.">
+            <p class="font-bold text-slate-900 mb-4">8. Laptop menampilkan “No bootable device”. Pemeriksaan awal mana yang paling tepat?</p>
+            <div class="grid sm:grid-cols-2 gap-2">
+              <label class="quiz-option"><input type="radio" name="q8" value="A"><span>A. Hapus partisi sistem yang ada</span></label>
+              <label class="quiz-option"><input type="radio" name="q8" value="B"><span>B. Pasang ulang aplikasi pengolah kata</span></label>
+              <label class="quiz-option"><input type="radio" name="q8" value="C"><span>C. Hapus riwayat browser yang tersimpan</span></label>
+              <label class="quiz-option"><input type="radio" name="q8" value="D"><span>D. Cek deteksi drive dan urutan boot</span></label>
+            </div><p class="quiz-feedback hidden mt-3 text-sm rounded-xl p-3"></p>
+          </article>
+          <article class="quiz-question border border-slate-200 rounded-2xl p-5" data-answer="B" data-explain="Perintah ping biasanya menguji keterjangkauan host melalui pesan jaringan. Dalam halaman ini hasilnya hanya contoh lokal, bukan pengujian jaringan sungguhan.">
+            <p class="font-bold text-slate-900 mb-4">9. Saat menjalankan `ping` di lab simulasi pada halaman ini, hasilnya muncul seketika. Kesimpulan yang benar adalah…</p>
+            <div class="grid sm:grid-cols-2 gap-2">
+              <label class="quiz-option"><input type="radio" name="q9" value="A"><span>A. Komputer pasti terhubung ke internet</span></label>
+              <label class="quiz-option"><input type="radio" name="q9" value="B"><span>B. Halaman menampilkan hasil contoh lokal</span></label>
+              <label class="quiz-option"><input type="radio" name="q9" value="C"><span>C. Semua paket jaringan berhasil dikirim</span></label>
+              <label class="quiz-option"><input type="radio" name="q9" value="D"><span>D. Sistem operasi perangkat telah diperiksa</span></label>
+            </div><p class="quiz-feedback hidden mt-3 text-sm rounded-xl p-3"></p>
+          </article>
+          <article class="quiz-question border border-slate-200 rounded-2xl p-5" data-answer="C" data-explain="Bug adalah cacat atau kesalahan dalam software yang dapat memunculkan perilaku tidak sesuai. Error adalah keadaan atau pesan kesalahan yang muncul; keduanya berkaitan tetapi tidak persis sama.">
+            <p class="font-bold text-slate-900 mb-4">10. Sebuah program memiliki cacat yang membuat tombol tertentu gagal bekerja. Istilah yang paling tepat untuk cacat pada program itu adalah…</p>
+            <div class="grid sm:grid-cols-2 gap-2">
+              <label class="quiz-option"><input type="radio" name="q10" value="A"><span>A. Driver</span></label>
+              <label class="quiz-option"><input type="radio" name="q10" value="B"><span>B. Firmware</span></label>
+              <label class="quiz-option"><input type="radio" name="q10" value="C"><span>C. Bug</span></label>
+              <label class="quiz-option"><input type="radio" name="q10" value="D"><span>D. Cloud</span></label>
+            </div><p class="quiz-feedback hidden mt-3 text-sm rounded-xl p-3"></p>
+          </article>
+          <div id="quiz-navigation" class="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 pt-2">
+            <p id="quiz-step-label" class="text-sm font-bold text-slate-500">Soal 1 dari 10</p>
+            <div class="flex gap-3"><button type="button" id="quiz-prev" class="interactive-choice border border-slate-300 text-slate-700 px-5 py-3 rounded-xl font-bold" disabled>← Sebelumnya</button><button type="button" id="quiz-next" class="interactive-choice bg-indigo-600 hover:bg-indigo-700 text-white px-5 py-3 rounded-xl font-bold" disabled>Soal berikutnya →</button><button type="submit" id="quiz-finish" class="interactive-choice bg-emerald-600 hover:bg-emerald-700 text-white px-5 py-3 rounded-xl font-bold hidden">Lihat hasil akhir</button></div>
+          </div>
+          <div class="pt-1"><button type="button" id="quiz-reset" class="interactive-choice border border-slate-300 text-slate-700 px-5 py-3 rounded-xl font-bold">Ulangi kuis</button></div>
+          <div id="quiz-result" class="hidden rounded-2xl border border-indigo-100 bg-indigo-50 p-5" aria-live="polite"></div>
+          <button type="button" id="print-quiz-result" onclick="printSection('quiz')" class="no-print interactive-choice border border-indigo-200 text-indigo-700 hover:bg-indigo-50 px-5 py-3 rounded-xl font-bold" disabled><i class="fa-solid fa-print mr-2"></i>Cetak hasil kuis</button>
+        </form>
+
+        <div class="border-t border-slate-200 mt-12 pt-8 mb-6">
+          <span class="text-xs font-extrabold uppercase tracking-wider text-slate-500">Latihan lanjutan</span>
+          <h3 class="text-xl md:text-2xl font-extrabold text-slate-900 mt-2 mb-2">Soal Esai Software 101</h3>
+          <p class="text-slate-600 text-sm leading-relaxed">Setelah kuis, pilih beberapa soal esai untuk melatih penjelasan dengan kata-katamu sendiri. Gunakan panduan jawaban untuk mengecek poin penting.</p>
+        </div>
+        <div id="essay-questions" class="space-y-6">
+          <article class="essay-card border border-slate-200 rounded-2xl p-5" data-id="1"><label for="essay-1" class="block font-bold text-slate-900 mb-2">1. Jelaskan perbedaan hardware dan software. Berikan masing-masing tiga contoh dan jelaskan bagaimana keduanya bekerja sama saat kamu membuka aplikasi di HP.</label><textarea id="essay-1" rows="4" class="essay-answer w-full rounded-xl border border-slate-300 p-3 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500" placeholder="Tulis jawabanmu di sini..."></textarea><button type="button" class="essay-guide-btn mt-3 text-sm font-bold text-indigo-700 underline" aria-expanded="false" onclick="toggleEssayGuide(1)">Lihat panduan jawaban</button><div id="essay-guide-1" class="essay-guide hidden mt-3 rounded-xl bg-indigo-50 border border-indigo-100 p-4 text-sm text-slate-700"><b>Poin yang sebaiknya dibahas:</b> hardware adalah komponen fisik; software adalah program/instruksi; contoh perangkat fisik dan aplikasi; sentuhan pada layar menjadi input, aplikasi dan sistem memprosesnya, lalu layar menampilkan output.</div></article>
+          <article class="essay-card border border-slate-200 rounded-2xl p-5" data-id="2"><label for="essay-2" class="block font-bold text-slate-900 mb-2">2. Apa itu sistem operasi (Operating System/OS)? Jelaskan minimal tiga tugasnya dan sebutkan sistem operasi yang digunakan pada HP Android, iPhone, PC Windows, Mac, dan komputer Ubuntu.</label><textarea id="essay-2" rows="4" class="essay-answer w-full rounded-xl border border-slate-300 p-3 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500" placeholder="Tulis jawabanmu di sini..."></textarea><button type="button" class="essay-guide-btn mt-3 text-sm font-bold text-indigo-700 underline" aria-expanded="false" onclick="toggleEssayGuide(2)">Lihat panduan jawaban</button><div id="essay-guide-2" class="essay-guide hidden mt-3 rounded-xl bg-indigo-50 border border-indigo-100 p-4 text-sm text-slate-700"><b>Poin yang sebaiknya dibahas:</b> OS mengelola sumber daya komputer dan menyediakan layanan bagi aplikasi; contoh tugasnya mengelola proses, memori, file, perangkat, antarmuka, dan jaringan. Pasangkan Android, iOS, Windows 11, macOS, serta Ubuntu Linux dengan perangkat yang sesuai.</div></article>
+          <article class="essay-card border border-slate-200 rounded-2xl p-5" data-id="3"><label for="essay-3" class="block font-bold text-slate-900 mb-2">3. Apa perbedaan RAM dan SSD/HDD? Jelaskan apa yang mungkin terjadi pada data di RAM ketika komputer dimatikan, lalu berikan contoh fungsi masing-masing.</label><textarea id="essay-3" rows="4" class="essay-answer w-full rounded-xl border border-slate-300 p-3 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500" placeholder="Tulis jawabanmu di sini..."></textarea><button type="button" class="essay-guide-btn mt-3 text-sm font-bold text-indigo-700 underline" aria-expanded="false" onclick="toggleEssayGuide(3)">Lihat panduan jawaban</button><div id="essay-guide-3" class="essay-guide hidden mt-3 rounded-xl bg-indigo-50 border border-indigo-100 p-4 text-sm text-slate-700"><b>Poin yang sebaiknya dibahas:</b> RAM menyimpan data kerja sementara saat program berjalan dan bersifat volatil; SSD/HDD menyimpan file lebih lama meskipun komputer dimatikan, selama perangkat penyimpanan berfungsi.</div></article>
+          <article class="essay-card border border-slate-200 rounded-2xl p-5" data-id="4"><label for="essay-4" class="block font-bold text-slate-900 mb-2">4. Jelaskan perbedaan aplikasi, driver, firmware, dan utility. Berikan satu contoh penggunaan untuk setiap istilah.</label><textarea id="essay-4" rows="4" class="essay-answer w-full rounded-xl border border-slate-300 p-3 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500" placeholder="Tulis jawabanmu di sini..."></textarea><button type="button" class="essay-guide-btn mt-3 text-sm font-bold text-indigo-700 underline" aria-expanded="false" onclick="toggleEssayGuide(4)">Lihat panduan jawaban</button><div id="essay-guide-4" class="essay-guide hidden mt-3 rounded-xl bg-indigo-50 border border-indigo-100 p-4 text-sm text-slate-700"><b>Poin yang sebaiknya dibahas:</b> aplikasi membantu pengguna melakukan tugas; driver membantu OS berkomunikasi dengan perangkat keras; firmware adalah software tingkat rendah yang tertanam pada perangkat; utility membantu pemeliharaan atau pengelolaan sistem.</div></article>
+          <article class="essay-card border border-slate-200 rounded-2xl p-5" data-id="5"><label for="essay-5" class="block font-bold text-slate-900 mb-2">5. Apa yang dimaksud dengan bug dan error? Jika sebuah aplikasi tiba-tiba tertutup setelah diperbarui, jelaskan tiga kemungkinan penyebab dan urutan pemeriksaan awal yang aman.</label><textarea id="essay-5" rows="4" class="essay-answer w-full rounded-xl border border-slate-300 p-3 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500" placeholder="Tulis jawabanmu di sini..."></textarea><button type="button" class="essay-guide-btn mt-3 text-sm font-bold text-indigo-700 underline" aria-expanded="false" onclick="toggleEssayGuide(5)">Lihat panduan jawaban</button><div id="essay-guide-5" class="essay-guide hidden mt-3 rounded-xl bg-indigo-50 border border-indigo-100 p-4 text-sm text-slate-700"><b>Poin yang sebaiknya dibahas:</b> bug adalah cacat pada software; error adalah kesalahan/kondisi bermasalah yang dilaporkan atau terlihat. Kemungkinan penyebab meliputi bug pembaruan, konflik kompatibilitas, sumber daya kurang, atau data aplikasi bermasalah. Mulai dari mencatat pesan error, membuka ulang, memeriksa pembaruan, dan mencoba langkah yang tidak menghapus data.</div></article>
+          <article class="essay-card border border-slate-200 rounded-2xl p-5" data-id="6"><label for="essay-6" class="block font-bold text-slate-900 mb-2">6. Jelaskan perbedaan software lokal dan layanan cloud. Mengapa aplikasi pesan biasanya membutuhkan jaringan untuk mengirim pesan, sedangkan kalkulator sederhana tetap bisa digunakan tanpa internet?</label><textarea id="essay-6" rows="4" class="essay-answer w-full rounded-xl border border-slate-300 p-3 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500" placeholder="Tulis jawabanmu di sini..."></textarea><button type="button" class="essay-guide-btn mt-3 text-sm font-bold text-indigo-700 underline" aria-expanded="false" onclick="toggleEssayGuide(6)">Lihat panduan jawaban</button><div id="essay-guide-6" class="essay-guide hidden mt-3 rounded-xl bg-indigo-50 border border-indigo-100 p-4 text-sm text-slate-700"><b>Poin yang sebaiknya dibahas:</b> software lokal diproses terutama di perangkat; cloud menggunakan server melalui jaringan. Aplikasi pesan perlu jaringan untuk bertukar data dengan penerima/server, sedangkan kalkulator dasar umumnya menghitung secara lokal. Beberapa aplikasi dapat menggabungkan pemrosesan lokal dan cloud.</div></article>
+          <article class="essay-card border border-slate-200 rounded-2xl p-5" data-id="7"><label for="essay-7" class="block font-bold text-slate-900 mb-2">7. Laptop menyala tetapi muncul pesan “No bootable device”. Apa arti umum pesan itu? Tuliskan langkah pemeriksaan awal yang aman dan jelaskan mengapa memformat drive bukan langkah pertama yang tepat.</label><textarea id="essay-7" rows="4" class="essay-answer w-full rounded-xl border border-slate-300 p-3 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500" placeholder="Tulis jawabanmu di sini..."></textarea><button type="button" class="essay-guide-btn mt-3 text-sm font-bold text-indigo-700 underline" aria-expanded="false" onclick="toggleEssayGuide(7)">Lihat panduan jawaban</button><div id="essay-guide-7" class="essay-guide hidden mt-3 rounded-xl bg-indigo-50 border border-indigo-100 p-4 text-sm text-slate-700"><b>Poin yang sebaiknya dibahas:</b> komputer tidak menemukan perangkat atau sistem yang bisa digunakan untuk boot. Periksa apakah SSD/HDD terdeteksi, urutan boot, dan apakah ada perubahan baru-baru ini. Jangan langsung memformat karena dapat menghapus data dan belum tentu menyelesaikan penyebabnya.</div></article>
+          <article class="essay-card border border-slate-200 rounded-2xl p-5" data-id="8"><label for="essay-8" class="block font-bold text-slate-900 mb-2">8. Apa itu command line/terminal? Jelaskan kegunaannya dan arti dari perintah `ping` secara umum. Mengapa simulasi terminal di halaman web ini tidak sama dengan menjalankan perintah jaringan sungguhan?</label><textarea id="essay-8" rows="4" class="essay-answer w-full rounded-xl border border-slate-300 p-3 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500" placeholder="Tulis jawabanmu di sini..."></textarea><button type="button" class="essay-guide-btn mt-3 text-sm font-bold text-indigo-700 underline" aria-expanded="false" onclick="toggleEssayGuide(8)">Lihat panduan jawaban</button><div id="essay-guide-8" class="essay-guide hidden mt-3 rounded-xl bg-indigo-50 border border-indigo-100 p-4 text-sm text-slate-700"><b>Poin yang sebaiknya dibahas:</b> command line/terminal adalah antarmuka untuk memberi perintah berbasis teks. `ping` umumnya menguji keterjangkauan host dengan mengirim paket ICMP, jika diizinkan jaringan. Simulasi web hanya menampilkan hasil contoh; tidak menjalankan perintah sistem atau mengirim paket jaringan sungguhan.</div></article>
+        </div>
+        <div class="flex flex-col sm:flex-row gap-3 mt-8 no-print">
+          <button type="button" onclick="printSection('essay')" class="interactive-choice bg-slate-900 text-white px-5 py-3 rounded-xl font-bold"><i class="fa-solid fa-print mr-2"></i>Cetak jawaban esai</button>
+          <button type="button" onclick="clearEssayAnswers()" class="interactive-choice border border-slate-300 text-slate-700 px-5 py-3 rounded-xl font-bold">Hapus semua jawaban</button>
+        </div>
+        <p class="text-xs text-slate-500 mt-4">Saran: jawaban yang baik menjelaskan konsep, menggunakan istilah teknis dengan tepat, dan menyertakan contoh. Tombol “Lihat panduan jawaban” menampilkan poin untuk membandingkan jawabanmu, bukan satu-satunya susunan jawaban yang benar.</p>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t border-slate-100 py-8 text-center text-sm text-slate-500">
+        <p>Software 101 &bull; Belajar Teknologi Tanpa Pusing &copy; 2026</p>
+    </footer>
+
+    <!-- JavaScript Interaksi -->
+    <script>
+        // Simulasi Rakit HP Digital
+        function updateSimulation() {
+            const hasHardware = document.getElementById('chk-hardware').checked;
+            const hasSoftware = document.getElementById('chk-software').checked;
+            const screenIcon = document.getElementById('sim-screen-icon');
+            const screenText = document.getElementById('sim-screen-text');
+            const screenSub = document.getElementById('sim-screen-sub');
+            const desc = document.getElementById('sim-desc');
+
+            if (!hasHardware && !hasSoftware) {
+                screenIcon.className = "text-4xl text-slate-600 mb-3";
+                screenIcon.innerHTML = '<i class="fa-solid fa-mobile-screen"></i>';
+                screenText.className = "font-bold text-slate-400 text-base";
+                screenText.innerText = "LAYAR MATI (GELAP)";
+                screenSub.innerText = "Belum ada tanda-tanda kehidupan.";
+                desc.innerText = "Status: Perangkat masih dalam kondisi kotak kosong mati total.";
+            } else if (hasHardware && !hasSoftware) {
+                screenIcon.className = "text-4xl text-amber-500 mb-3 animate-pulse";
+                screenIcon.innerHTML = '<i class="fa-solid fa-triangle-exclamation"></i>';
+                screenText.className = "font-bold text-amber-400 text-base";
+                screenText.innerText = "NYALA SEBENTAR, LALU MACET / MATI";
+                screenSub.innerText = "Hardware ada, tapi tidak ada instruksi (software).";
+                desc.innerText = "Status: Komponen fisik menyala, tapi bingung mau kerja apa karena tidak ada sistem operasi di dalamnya!";
+            } else if (!hasHardware && hasSoftware) {
+                screenIcon.className = "text-4xl text-rose-500 mb-3";
+                screenIcon.innerHTML = '<i class="fa-solid fa-ban"></i>';
+                screenText.className = "font-bold text-rose-400 text-base";
+                screenText.innerText = "TIDAK BISA DIJALANKAN";
+                screenSub.innerText = "Software ada, tapi tidak ada perangkat keras.";
+                desc.innerText = "Status: Program ada di dalam file, tapi tidak punya layar atau chip fisik untuk menampilkannya!";
+            } else {
+                screenIcon.className = "text-4xl text-emerald-400 mb-3 animate-bounce";
+                screenIcon.innerHTML = '<i class="fa-solid fa-circle-check"></i>';
+                screenText.className = "font-bold text-emerald-400 text-base";
+                screenText.innerText = "HP MENYALA SEMPURNA!";
+                screenSub.innerText = "Android aktif, ikon aplikasi siap disentuh.";
+                desc.innerText = "Status: Sempurna! Hardware dan Software bekerja sama dengan harmonis sehingga perangkat siap dipakai.";
+            }
+        }
+
+        // Tangkapan layar nyata dari sumber eksternal; gambar tidak dibuat ulang.
+        const osData = {
+            android: {
+                title: "Android 17 — Layar Utama",
+                desc: "Tangkapan layar nyata Android 17 dari Android Emulator. Android adalah sistem operasi untuk banyak merek ponsel. Tampilan Android bisa berbeda menurut produsen dan antarmuka tambahan, misalnya One UI pada Samsung.",
+                version: "Android 17",
+                img: "https://commons.wikimedia.org/wiki/Special:FilePath/Android_17_screenshot.png?width=900",
+                alt: "Tangkapan layar layar utama Android 17",
+                source: "Wikimedia Commons — Screenshot Android 17 homescreen",
+                url: "https://commons.wikimedia.org/wiki/File:Android_17_screenshot.png"
+            },
+            ios: {
+                title: "iOS 27 — Layar Utama iPhone",
+                desc: "Tangkapan layar nyata antarmuka iOS 27 yang menampilkan ikon aplikasi, widget, dan gaya visual Liquid Glass. iOS dikembangkan Apple untuk iPhone; susunan ikon dan widget dapat berbeda menurut pengaturan pengguna.",
+                version: "iOS 27",
+                img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQlRuZ2VI8XnpsMeVqvY9V9FK8ZCto9Uv4FV5AkCAD5IQ&s=10",
+                alt: "Tangkapan layar nyata layar utama iOS 27 dengan Liquid Glass",
+                source: "BetaWiki — iOS 27 Springboard on iPhone 17 Pro",
+                url: "https://betawiki.net/wiki/IOS_27"
+            },
+            windows: {
+                title: "Windows 11 — Desktop",
+                desc: "Tangkapan layar nyata desktop Windows 11. Perhatikan taskbar dengan ikon di tengah dan wallpaper khas Windows 11. Gambar ini berasal dari build awal Windows 11, sehingga detailnya mungkin berbeda dari pembaruan Windows 11 yang lebih baru.",
+                version: "Windows 11",
+                img: "https://upload.wikimedia.org/wikipedia/id/9/92/Windows_11_Desktop.png?utm_source=id.wikipedia.org&utm_campaign=index&utm_content=original",
+                alt: "Tangkapan layar nyata desktop Windows 11",
+                source: "BetaWiki — Windows 11 Desktop screenshot",
+                url: "https://betawiki.net/wiki/File:Windows11-10.0.22000.132-Desktop.png"
+            },
+            macos: {
+                title: "macOS 27 Golden Gate — Desktop Mac",
+                desc: "Tangkapan layar nyata desktop macOS 27 Golden Gate. Ciri khas macOS antara lain menu bar di bagian atas, Dock untuk membuka aplikasi, dan Finder untuk mengelola file. Wallpaper dan ikon dapat diubah oleh pengguna.",
+                version: "macOS 27 Golden Gate",
+                img: "https://cdn.launchosapp.com/blog/apps-app_macOS27-m7ysrm.png",
+                alt: "Tangkapan layar nyata desktop macOS 27 Golden Gate",
+                source: "BetaWiki — macOS Golden Gate desktop screenshot",
+                url: "https://betawiki.net/wiki/MacOS_Golden_Gate"
+            },
+            linux: {
+                title: "Ubuntu 26.04 LTS — Desktop Linux",
+                desc: "Tangkapan layar nyata desktop Ubuntu 26.04 LTS dengan lingkungan desktop GNOME. Ubuntu adalah distribusi Linux yang menggabungkan kernel Linux, aplikasi, dan alat sistem menjadi sistem operasi yang siap digunakan. Tampilan bisa berubah menurut versi Ubuntu dan lingkungan desktop.",
+                version: "Ubuntu 26.04 LTS",
+                img: "https://commons.wikimedia.org/wiki/Special:FilePath/Ubuntu_26.04_LTS_desktop.png?width=1200",
+                alt: "Tangkapan layar nyata desktop Ubuntu 26.04 LTS",
+                source: "Wikimedia Commons — Ubuntu 26.04 LTS desktop screenshot",
+                url: "https://commons.wikimedia.org/wiki/File:Ubuntu_26.04_LTS_desktop.png"
+            }
+        };
+
+        function changeOS(osKey) {
+            document.querySelectorAll('.os-btn').forEach(btn => {
+                btn.classList.remove('border-indigo-500', 'bg-slate-800/90', 'shadow-lg');
+                btn.classList.add('border-slate-800', 'bg-slate-800/40');
+                btn.setAttribute('aria-pressed', 'false');
+            });
+            const selectedBtn = document.getElementById(`btn-${osKey}`);
+            if (!selectedBtn || !osData[osKey]) return;
+            selectedBtn.classList.remove('border-slate-800', 'bg-slate-800/40');
+            selectedBtn.classList.add('border-indigo-500', 'bg-slate-800/90', 'shadow-lg');
+            selectedBtn.setAttribute('aria-pressed', 'true');
+            const data = osData[osKey];
+            document.getElementById('os-title').innerText = data.title;
+            document.getElementById('os-desc').innerText = data.desc;
+            const preview = document.getElementById('os-preview');
+            preview.src = data.img;
+            preview.alt = data.alt;
+            const source = document.getElementById('os-source');
+            source.innerHTML = `Sumber: <a class="underline text-cyan-300 hover:text-white" href="${data.url}" target="_blank" rel="noopener noreferrer">${data.source}</a>`;
+        }
+
+        // Data & Logika Evolusi Timeline Software
+        const eraData = [
+            {
+                year: "1970–1980s",
+                tech: "MS-DOS / Command Line",
+                title: "Layar Hitam Tanpa Mouse",
+                desc: "Dahulu belum ada gambar, warna-warni, ataupun mouse. Pengguna harus menghafal perintah teks seperti DIR atau CD C:\\ lalu menekan Enter untuk menyuruh komputer bekerja.",
+                impact: "Komputer pertama kali beralih dari kaset fisik pita ke barisan baris instruksi digital yang fleksibel.",
+                bgColor: "bg-slate-950",
+                screenHTML: `
+                    <div class="bg-black p-4 rounded-xl border border-emerald-500/40 font-mono-code text-xs text-emerald-400 space-y-2 shadow-inner">
+                        <div class="text-slate-500">C:\\&gt; ver</div>
+                        <div>MS-DOS Version 3.30</div>
+                        <div class="text-slate-500">C:\\&gt; run program.exe</div>
+                        <div class="animate-pulse">&gt; Loading data... [OK]</div>
+                    </div>
+                `
+            },
+            {
+                year: "1990–2000s",
+                tech: "Windows 95 / Mac OS",
+                title: "Era Jendela Visual & Mouse (GUI)",
+                desc: "Layar monitor mulai memiliki warna, jendela folder, dan tombol yang bisa diklik dengan Mouse! Pengguna awam kini bisa mengetik dokumen atau bermain game tanpa perlu hafal kode.",
+                impact: "Komputer pribadi (PC) mulai masuk secara massal ke rumah tangga, sekolah, dan perkantoran.",
+                bgColor: "bg-teal-900",
+                screenHTML: `
+                    <div class="bg-slate-200 p-3 rounded-xl border-2 border-slate-400 text-slate-800 font-sans shadow-md">
+                        <div class="bg-indigo-900 text-white text-[10px] px-2 py-1 flex justify-between items-center rounded-t">
+                            <span>My Computer - Windows 95</span>
+                            <span class="font-bold">X</span>
+                        </div>
+                        <div class="p-3 bg-white border border-slate-300 mt-1 grid grid-cols-3 gap-2 text-center text-[10px]">
+                            <div class="p-1 hover:bg-blue-50 border border-transparent hover:border-blue-200 rounded cursor-pointer">
+                                <i class="fa-solid fa-floppy-disk text-indigo-600 text-base block mb-1"></i>Drive (C:)
+                            </div>
+                            <div class="p-1 hover:bg-blue-50 border border-transparent hover:border-blue-200 rounded cursor-pointer">
+                                <i class="fa-solid fa-folder text-amber-500 text-base block mb-1"></i>Dokumen
+                            </div>
+                            <div class="p-1 hover:bg-blue-50 border border-transparent hover:border-blue-200 rounded cursor-pointer">
+                                <i class="fa-solid fa-compact-disc text-slate-500 text-base block mb-1"></i>CD-ROM
+                            </div>
+                        </div>
+                    </div>
+                `
+            },
+            {
+                year: "2010s",
+                tech: "iOS / Android / App Store",
+                title: "Era Sentuhan & Toko Aplikasi",
+                desc: "Smartphone dan toko aplikasi membuat software mobile makin umum. Antarmuka sentuh menjadi lazim, sementara aplikasi dapat memproses data secara lokal maupun terhubung ke layanan online.",
+                impact: "Melahirkan era aplikasi sosial media, ojek online, hingga mobile banking harian.",
+                bgColor: "bg-indigo-950",
+                screenHTML: `
+                    <div class="bg-slate-900 p-4 rounded-2xl border border-indigo-500/30 text-white w-48 mx-auto shadow-2xl">
+                        <div class="text-[10px] text-center text-slate-400 mb-3 font-semibold">9:41 AM</div>
+                        <div class="grid grid-cols-3 gap-3 text-center">
+                            <div class="w-10 h-10 bg-emerald-500 rounded-xl flex items-center justify-center mx-auto text-white text-lg shadow-sm"><i class="fa-brands fa-whatsapp"></i></div>
+                            <div class="w-10 h-10 bg-gradient-to-tr from-amber-500 to-purple-600 rounded-xl flex items-center justify-center mx-auto text-white text-lg shadow-sm"><i class="fa-brands fa-instagram"></i></div>
+                            <div class="w-10 h-10 bg-red-600 rounded-xl flex items-center justify-center mx-auto text-white text-lg shadow-sm"><i class="fa-brands fa-youtube"></i></div>
+                        </div>
+                    </div>
+                `
+            },
+            {
+                year: "Sekarang",
+                tech: "Cloud / SaaS / AI Generatif",
+                title: "Era Cloud & Kecerdasan Buatan (AI)",
+                desc: "Sebagian layanan software berjalan di server cloud dan diakses melalui jaringan; sebagian lain tetap memproses banyak hal di perangkat. AI juga digunakan untuk membantu tugas seperti merangkum, membuat gambar, dan menjawab pertanyaan.",
+                impact: "Software bertransformasi dari sekadar alat pasif menjadi asisten cerdas yang bekerja kolaboratif bersama manusia.",
+                bgColor: "bg-slate-900",
+                screenHTML: `
+                    <div class="bg-slate-800/90 p-4 rounded-2xl border border-purple-500/40 text-slate-100 text-xs shadow-xl space-y-3">
+                        <div class="flex items-center space-x-2 border-b border-slate-700 pb-2">
+                            <i class="fa-solid fa-sparkles text-purple-400"></i>
+                            <span class="font-bold text-purple-300">AI Assistant Active</span>
+                        </div>
+                        <div class="bg-slate-900 p-2.5 rounded-xl border border-slate-700 text-[11px] text-slate-300">
+                            "Saya telah merangkum laporan kerja Anda dalam 3 poin utama..."
+                        </div>
+                    </div>
+                `
+            }
+        ];
+
+        function setEra(index) {
+            const data = eraData[index];
+            
+            // Highlight Tab Buttons
+            document.querySelectorAll('.era-tab').forEach((btn, idx) => {
+                if(idx === index) {
+                    btn.className = "era-tab p-4 rounded-2xl border-2 border-indigo-600 bg-indigo-50/50 text-indigo-900 font-bold text-sm text-center transition flex flex-col items-center justify-center shadow-sm";
+                } else {
+                    btn.className = "era-tab p-4 rounded-2xl border-2 border-slate-200 bg-white text-slate-600 font-bold text-sm text-center transition flex flex-col items-center justify-center hover:border-slate-300";
+                }
+            });
+
+            // Update Content
+            document.getElementById('era-badge-year').innerText = data.year;
+            document.getElementById('era-badge-tech').innerText = data.tech;
+            document.getElementById('era-title').innerText = data.title;
+            document.getElementById('era-desc').innerHTML = data.desc;
+            document.getElementById('era-impact').innerText = data.impact;
+            
+            // Visual Render Update
+            const visualBg = document.getElementById('era-visual-bg');
+            visualBg.className = `md:col-span-6 ${data.bgColor} p-6 flex items-center justify-center relative overflow-hidden transition-all duration-300`;
+            document.getElementById('era-screen-content').innerHTML = data.screenHTML;
+        }
+
+        // Evaluasi esai: tidak ada penilaian otomatis untuk jawaban terbuka.
+        function toggleEssayGuide(id) {
+            const guide = document.getElementById(`essay-guide-${id}`);
+            const button = document.querySelector(`.essay-card[data-id="${id}"] .essay-guide-btn`);
+            if (!guide || !button) return;
+            const opening = guide.classList.contains('hidden');
+            guide.classList.toggle('hidden', !opening);
+            button.setAttribute('aria-expanded', String(opening));
+            button.innerText = opening ? 'Sembunyikan panduan jawaban' : 'Lihat panduan jawaban';
+        }
+
+        function clearEssayAnswers() {
+            if (!window.confirm('Hapus semua jawaban esai yang sudah ditulis?')) return;
+            document.querySelectorAll('.essay-answer').forEach(input => input.value = '');
+            try { localStorage.removeItem('software101_essay_answers_v2'); } catch (error) {}
+        }
+
+        // Menu responsif dan indikator progres baca
+        const menuToggle = document.getElementById('mobile-menu-toggle');
+        const mobileMenu = document.getElementById('mobile-menu');
+        if (menuToggle && mobileMenu) {
+            menuToggle.addEventListener('click', () => {
+                const isHidden = mobileMenu.classList.toggle('hidden');
+                menuToggle.setAttribute('aria-expanded', String(!isHidden));
+            });
+            mobileMenu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+                mobileMenu.classList.add('hidden'); menuToggle.setAttribute('aria-expanded', 'false');
+            }));
+        }
+        function updateReadingProgress() {
+            const max = document.documentElement.scrollHeight - window.innerHeight;
+            const pct = max > 0 ? Math.min(100, Math.max(0, window.scrollY / max * 100)) : 0;
+            const bar = document.getElementById('reading-progress');
+            if (bar) bar.style.width = pct + '%';
+        }
+        window.addEventListener('scroll', updateReadingProgress, { passive: true });
+        window.addEventListener('resize', updateReadingProgress);
+
+        // Studi kasus: diagnosis dan penjelasan
+        const cases = [
+          {title:'Laptop menyala tetapi sistem operasi tidak masuk', symptom:'Logo produsen tampil, lalu muncul pesan bahwa perangkat boot tidak ditemukan.', options:['Memeriksa apakah SSD/HDD terdeteksi dan urutan boot sesuai','Langsung menghapus seluruh partisi','Mengganti tema desktop'], correct:0, explain:'Mulai dari pemeriksaan penyimpanan dan urutan boot. Jika drive tidak terdeteksi, periksa koneksi atau kondisi drive. Hindari format sebelum data diamankan.'},
+          {title:'Aplikasi menutup sendiri setelah diperbarui', symptom:'Aplikasi sebelumnya normal, tetapi setelah update langsung berhenti saat dibuka.', options:['Mencatat pesan error, restart aplikasi/perangkat, lalu cek pembaruan atau kompatibilitas','Menghapus folder sistem secara acak','Mematikan antivirus permanen'], correct:0, explain:'Kaitkan gejala dengan perubahan terakhir. Periksa log atau pesan error, kompatibilitas, dan pembaruan perbaikan; jangan menghapus file sistem secara acak.'},
+          {title:'Browser tidak dapat membuka situs', symptom:'Wi-Fi terlihat tersambung, tetapi beberapa situs gagal dibuka.', options:['Langsung menyimpulkan laptop rusak','Uji situs lain, koneksi, DNS, dan apakah perangkat lain mengalami masalah yang sama','Menginstal ulang sistem operasi sebagai langkah pertama'], correct:1, explain:'Pisahkan masalah koneksi, DNS, browser, dan situs tujuan. Bandingkan beberapa situs dan perangkat sebelum mengambil tindakan besar.'},
+          {title:'Printer terhubung tetapi tidak mencetak', symptom:'Dokumen tertahan dalam antrean meskipun printer menyala.', options:['Periksa antrean cetak, status printer, koneksi, dan driver','Menghapus semua file di drive C:','Mengubah resolusi layar'], correct:0, explain:'Periksa antrean dan status perangkat, lalu koneksi serta driver. Uji dengan dokumen sederhana untuk mempersempit sumber masalah.'}
+        ];
+        let caseIndex = 0;
+        let caseAnswered = false;
+        function renderCase() {
+          const c = cases[caseIndex]; caseAnswered = false;
+          document.getElementById('case-counter').textContent = `Kasus ${caseIndex + 1} dari ${cases.length}`;
+          document.getElementById('case-title').textContent = c.title;
+          document.getElementById('case-symptom').textContent = c.symptom;
+          const box = document.getElementById('case-options'); box.replaceChildren();
+          c.options.forEach((option, i) => {
+            const btn = document.createElement('button'); btn.type='button';
+            btn.className='interactive-choice text-left p-4 rounded-2xl border border-slate-200 hover:border-teal-500 hover:bg-teal-50 transition text-sm font-semibold';
+            btn.textContent = option; btn.addEventListener('click', () => {
+              if (caseAnswered) return; caseAnswered = true;
+              const fb = document.getElementById('case-feedback'); fb.classList.remove('hidden');
+              fb.className = 'mt-5 p-4 rounded-2xl text-sm border ' + (i === c.correct ? 'bg-emerald-50 text-emerald-900 border-emerald-200' : 'bg-amber-50 text-amber-900 border-amber-200');
+              fb.textContent = (i === c.correct ? 'Diagnosis awal tepat. ' : 'Belum pilihan terbaik. ') + c.explain;
+              [...box.children].forEach((b, j) => { b.disabled=true; if(j===c.correct) b.classList.add('border-emerald-500','bg-emerald-50'); });
+            }); box.appendChild(btn);
+          });
+          const fb = document.getElementById('case-feedback'); fb.classList.add('hidden'); fb.textContent='';
+        }
+        document.getElementById('case-next').addEventListener('click', () => { caseIndex=(caseIndex+1)%cases.length; renderCase(); });
+
+        // Lab terminal hanya simulasi lokal; tidak menjalankan perintah OS atau jaringan
+        const labResults = {
+          help: 'Perintah yang tersedia dalam simulasi:\nhelp  - menampilkan bantuan\ndir   - contoh daftar file Windows\npwd   - contoh lokasi direktori Linux\nipconfig - contoh ringkasan konfigurasi jaringan\nping  - contoh uji konektivitas (hasil fiktif)\nclear - membersihkan layar simulasi',
+          dir: 'C:\\Users\\Siswa> dir\n Volume in drive C is SYSTEM\n Directory of C:\\Users\\Siswa\n\n<DIR>  Documents\n<DIR>  Downloads\n       catatan.txt\n       tugas.docx\n\n2 File(s)   18,432 bytes\n2 Dir(s)   (contoh simulasi)',
+          pwd: '$ pwd\n/home/siswa\n\nLokasi direktori kerja contoh pada Linux.',
+          ipconfig: 'C:\\> ipconfig\nEthernet adapter (simulasi):\n   IPv4 Address . . . : 192.168.1.20\n   Subnet Mask  . . . : 255.255.255.0\n   Default Gateway . : 192.168.1.1\n\nNilai di atas hanya contoh, bukan konfigurasi perangkatmu.',
+          ping: '$ ping 192.168.1.1\nReply from 192.168.1.1: bytes=32 time=2ms TTL=64\nReply from 192.168.1.1: bytes=32 time=3ms TTL=64\n\nHasil fiktif untuk menunjukkan bentuk output ping. Tidak ada paket yang dikirim.',
+          clear: ''
+        };
+        document.getElementById('run-lab').addEventListener('click', () => {
+          const cmd = document.getElementById('lab-command').value;
+          const output = document.getElementById('lab-output');
+          output.textContent = cmd === 'clear' ? 'Layar simulasi dibersihkan. Pilih perintah lain untuk melanjutkan.' : labResults[cmd] || 'Perintah tidak tersedia di lab simulasi.';
+        });
+
+
+        // Jawaban esai disimpan lokal di browser agar tidak hilang saat halaman dimuat ulang.
+        const ESSAY_STORAGE_KEY = 'software101_essay_answers_v2';
+        function restoreEssayAnswers() {
+          try {
+            const saved = JSON.parse(localStorage.getItem(ESSAY_STORAGE_KEY) || '{}');
+            document.querySelectorAll('.essay-answer').forEach(input => {
+              if (Object.prototype.hasOwnProperty.call(saved, input.id)) input.value = saved[input.id];
+              input.addEventListener('input', () => {
+                try {
+                  const current = JSON.parse(localStorage.getItem(ESSAY_STORAGE_KEY) || '{}');
+                  current[input.id] = input.value;
+                  localStorage.setItem(ESSAY_STORAGE_KEY, JSON.stringify(current));
+                } catch (error) { /* penyimpanan lokal mungkin tidak tersedia */ }
+              });
+            });
+          } catch (error) { /* lanjutkan tanpa pemulihan jika penyimpanan tidak tersedia */ }
+        }
+
+        function printSection(section) {
+          const oldStage = document.getElementById('print-stage');
+          if (oldStage) oldStage.remove();
+          const stage = document.createElement('main');
+          stage.id = 'print-stage';
+          let source;
+          if (section === 'summary') {
+            source = document.getElementById('ringkasan');
+            if (source) stage.append(source.cloneNode(true));
+          } else if (section === 'quiz') {
+            const result = document.getElementById('quiz-result');
+            const title = document.createElement('h1');
+            title.textContent = 'Hasil Kuis Software 101';
+            title.style.cssText = 'font-size:22px;font-weight:700;margin-bottom:16px';
+            stage.append(title);
+            if (result && !result.classList.contains('hidden')) stage.append(result.cloneNode(true));
+            else { stage.textContent = 'Hasil kuis belum tersedia. Selesaikan kuis terlebih dahulu.'; }
+          } else {
+            source = document.getElementById('essay-questions');
+            if (source) stage.append(source.cloneNode(true));
+          }
+          document.body.append(stage);
+          document.body.classList.add('printing');
+          window.print();
+        }
+        function cleanupPrint() {
+          document.body.classList.remove('printing');
+          document.getElementById('print-stage')?.remove();
+        }
+        window.addEventListener('afterprint', cleanupPrint);
+
+        function setupSoftwareQuiz() {
+          const form = document.getElementById('software-quiz');
+          const result = document.getElementById('quiz-result');
+          const questions = [...document.querySelectorAll('.quiz-question')];
+          if (!form || !result || !questions.length) return;
+          const progressBar = document.getElementById('quiz-progress-bar');
+          const progressText = document.getElementById('quiz-progress-text');
+          const printButton = document.getElementById('print-quiz-result');
+          const prev = document.getElementById('quiz-prev');
+          const next = document.getElementById('quiz-next');
+          const finish = document.getElementById('quiz-finish');
+          const stepLabel = document.getElementById('quiz-step-label');
+          let current = 0;
+          const updateProgress = () => {
+            const count = questions.filter(card => card.querySelector('input[type="radio"]:checked')).length;
+            if(progressBar) progressBar.style.width = (count / questions.length * 100) + '%';
+            if(progressText) progressText.textContent = `${count} dari ${questions.length} soal dijawab`;
+          };
+          const showQuestion = (index) => {
+            current = Math.max(0, Math.min(index, questions.length - 1));
+            questions.forEach((card, i) => card.classList.toggle('active', i === current));
+            stepLabel.textContent = `Soal ${current + 1} dari ${questions.length}`;
+            prev.disabled = current === 0;
+            prev.classList.toggle('opacity-40', prev.disabled);
+            const selected = questions[current].querySelector('input[type="radio"]:checked');
+            next.classList.toggle('hidden', current === questions.length - 1);
+            finish.classList.toggle('hidden', current !== questions.length - 1);
+            next.disabled = !selected;
+            finish.disabled = !selected;
+          };
+          questions.forEach(card => {
+            card.querySelectorAll('input[type="radio"]').forEach(input => {
+              input.addEventListener('change', () => {
+                updateProgress();
+                const feedback = card.querySelector('.quiz-feedback');
+                const isCorrect = input.value === card.dataset.answer;
+                feedback.className = 'quiz-feedback mt-3 text-sm rounded-xl p-3 ' + (isCorrect ? 'bg-emerald-50 text-emerald-800 border border-emerald-200' : 'bg-rose-50 text-rose-800 border border-rose-200');
+                feedback.textContent = (isCorrect ? '✓ Benar! ' : '✕ Belum tepat. Jawaban yang benar ditandai hijau. ') + card.dataset.explain;
+                feedback.classList.remove('hidden');
+                card.querySelectorAll('.quiz-option').forEach(label => {
+                  label.classList.remove('border-emerald-400','bg-emerald-50','border-rose-300','bg-rose-50');
+                  const option = label.querySelector('input[type="radio"]');
+                  if (option && option.value === card.dataset.answer) label.classList.add('border-emerald-400','bg-emerald-50');
+                  else if (option && option.checked && !isCorrect) label.classList.add('border-rose-300','bg-rose-50');
+                });
+                if (card === questions[current]) {
+                  next.disabled = current === questions.length - 1;
+                  finish.disabled = current !== questions.length - 1;
+                }
+              });
+            });
+          });
+          prev.addEventListener('click', () => showQuestion(current - 1));
+          next.addEventListener('click', () => showQuestion(current + 1));
+          showQuestion(0);
+          updateProgress();
+          form.addEventListener('submit', event => {
+            event.preventDefault();
+            if (!questions[current].querySelector('input[type="radio"]:checked')) return;
+            const answered = questions.filter(card => card.querySelector('input[type="radio"]:checked')).length;
+            const score = questions.filter(card => { const selected = card.querySelector('input[type="radio"]:checked'); return selected && selected.value === card.dataset.answer; }).length;
+            const percent = Math.round(score / questions.length * 100);
+            const note = percent >= 90 ? 'Pemahamanmu sudah kuat. Coba jelaskan alasan tiap jawaban dengan bahasamu sendiri.' : percent >= 70 ? 'Dasar-dasarnya mulai dikuasai. Baca kembali umpan balik pada soal yang belum tepat.' : 'Jangan buru-buru menghafal. Baca kembali bagian materi terkait, lalu coba lagi.';
+            questions.forEach(card => card.classList.remove('active'));
+            document.getElementById('quiz-navigation').classList.add('hidden');
+            result.classList.remove('hidden');
+            if (printButton) printButton.disabled = false;
+            result.innerHTML = `<div class="text-xs font-extrabold uppercase tracking-wider text-indigo-700">Hasil kuis</div><div class="text-2xl font-extrabold text-slate-900 mt-1">${score} dari ${questions.length} benar (${percent}%)</div><p class="text-sm text-slate-700 mt-2">Kamu menjawab ${answered} dari ${questions.length} soal.</p><p class="text-sm text-slate-600 mt-2">${note}</p><button type="button" id="quiz-review" class="mt-4 rounded-xl bg-white border border-indigo-200 px-4 py-2 font-bold text-indigo-700">Tinjau jawaban</button>`;
+            document.getElementById('quiz-review').addEventListener('click', () => { document.getElementById('quiz-navigation').classList.remove('hidden'); result.classList.add('hidden'); showQuestion(0); });
+            result.scrollIntoView({behavior:'smooth', block:'nearest'});
+          });
+          document.getElementById('quiz-reset')?.addEventListener('click', () => {
+            form.reset();
+            questions.forEach(card => { card.querySelector('.quiz-feedback').classList.add('hidden'); card.querySelector('.quiz-feedback').textContent = ''; card.querySelectorAll('.quiz-option').forEach(label => label.classList.remove('border-emerald-400','bg-emerald-50','border-rose-300','bg-rose-50')); });
+            result.classList.add('hidden'); result.textContent = '';
+            document.getElementById('quiz-navigation').classList.remove('hidden');
+            if (printButton) printButton.disabled = true;
+            showQuestion(0); updateProgress();
+          });
+        }
+
+        // Inisialisasi awal saat halaman dimuat
+        restoreEssayAnswers();
+        setupSoftwareQuiz();
+        renderCase();
+        updateReadingProgress();
+        updateSimulation();
+        setEra(0);
+        loadQuestion();
+            changeOS("android");
+</script>
+</body>
+</html>
